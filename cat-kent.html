@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kent Hairbrushes — UK Emporium</title>
+  <meta name="description" content="Browse all Kent Hairbrushes — authentic British imported goods from UK Emporium, Cape Town." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .products-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+    @media(max-width:1100px){.products-grid{grid-template-columns:repeat(3,1fr)}}
+    @media(max-width:700px){.products-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:440px){.products-grid{grid-template-columns:1fr}}
+    .cat-page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;flex-wrap:wrap;gap:1rem}
+    .cat-page-count{font-size:.85rem;color:var(--mid-gray)}
+    .back-link{font-size:.82rem;font-weight:600;color:var(--gold);text-decoration:underline;text-underline-offset:3px}
+    .back-link:hover{color:var(--navy)}
+  </style>
+</head>
+<body>
+<div class="ticker-bar"><div class="ticker-track">
+  <span class="ticker-item">🇬🇧 Authentic British imports<span>·</span></span>
+  <span class="ticker-item">Buy any 5 Astonish triggers — 10% off · Code: <strong>AST10</strong><span>·</span></span>
+  <span class="ticker-item">Free delivery over R1,000 · Cape Town &amp; 60km radius<span>·</span></span>
+  <span class="ticker-item">🇬🇧 Authentic British imports<span>·</span></span>
+  <span class="ticker-item">Buy any 5 Astonish triggers — 10% off · Code: <strong>AST10</strong><span>·</span></span>
+  <span class="ticker-item">Free delivery over R1,000 · Cape Town &amp; 60km radius<span>·</span></span>
+</div></div>
+<nav class="nav"><div class="nav-inner">
+  <a href="index.html" class="nav-logo"><span class="nav-logo-main">UK <em>Emporium</em></span><span class="nav-logo-sub">Cape Town · Est. in Britain</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li><li><a href="our-brands.html">Our Brands</a></li><li><a href="about.html">About</a></li>
+    <li><a href="shop.html" class="active">Shop</a></li><li><a href="wholesale.html">Wholesale</a></li><li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="my-account.html" class="nav-icon-btn" aria-label="Account"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
+    <a href="shop.html" class="nav-icon-btn" style="position:relative" aria-label="Cart"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><span class="cart-badge">0</span></a>
+    <button class="nav-hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
+  </div>
+</div></nav>
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-header"><span style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:#fff;">UK <em style="font-style:italic;color:var(--gold-light);">Emporium</em></span><button class="mobile-menu-close">✕</button></div>
+  <ul class="mobile-menu-links"><li><a href="index.html">Home</a></li><li><a href="our-brands.html">Our Brands</a></li><li><a href="about.html">About</a></li><li><a href="shop.html" class="active">Shop</a></li><li><a href="wholesale.html">Wholesale</a></li><li><a href="contact.html">Contact</a></li><li><a href="my-account.html">My Account</a></li></ul>
+</div>
+<div class="page-hero">
+  <div class="page-hero-content">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><a href="shop.html">Shop</a><span>/</span><span style="color:var(--gold-light);">Kent Hairbrushes</span></div>
+    <p class="page-hero-label">💈 All products</p>
+    <h1 class="page-hero-title">Kent Hairbrushes</h1>
+    <p class="page-hero-sub">Authentic British imports — 18 products</p>
+  </div>
+</div>
+<main>
+<section class="section section-cream">
+  <div class="container">
+    <div class="cat-page-header">
+      <p class="cat-page-count">Showing <strong>18</strong> products</p>
+      <a href="shop.html" class="back-link">← Back to all categories</a>
+    </div>
+    <div class="wholesale-cta-banner">
+      <div class="wcb-text">
+        <p class="wcb-label">For businesses</p>
+        <p class="wcb-title">Ordering in bulk? Get wholesale pricing.</p>
+        <p class="wcb-sub">We supply retailers, delis, restaurants and forecourts across South Africa with exclusive British brands.</p>
+      </div>
+      <div class="wcb-actions">
+        <a href="wholesale.html" class="btn-wcb-primary">Apply for wholesale →</a>
+        <a href="tel:+27215511722" class="btn-wcb-ghost">Call 021 551 1722</a>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:2rem;flex-wrap:wrap;">
+      <span id="sortCount" style="font-size:.85rem;color:var(--mid-gray)"></span>
+      <div class="shop-sort">
+        <label for="sort-select" style="font-size:.82rem;color:var(--mid-gray);">Sort by:</label>
+        <select id="sort-select" style="border:1.5px solid var(--border-light);border-radius:var(--radius-sm);padding:.5rem .9rem;font-family:inherit;font-size:.83rem;color:var(--navy);outline:none;cursor:pointer;background:#fff;">
+          <option value="featured">Featured</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+          <option value="name-asc">Name: A–Z</option>
+        </select>
+      </div>
+    </div>
+    <div class="products-grid">
+<div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">&#9825;</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2021/02/kent-spc86.pptx.jpg?resize=600%2C600&ssl=1" alt="10 Pronged Afro Style Comb" loading="lazy" /></div><div class="product-body"><p class="product-brand">Kent</p><h3 class="product-name">10 Pronged Afro Style Comb</h3><p class="product-volume">SPC86</p><div class="product-footer"><div><span class="product-price">R79.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
+<div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">&#9825;</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2021/02/kent-pf08.pptx.jpg?resize=600%2C600&ssl=1" alt="40mm Small Radial Brush" loading="lazy" /></div><div class="product-body"><p class="product-brand">Kent</p><h3 class="product-name">40mm Small Radial Brush</h3><p class="product-volume">PF08</p><div class="product-footer"><div><span class="product-price">R199.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
+<div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">&#9825;</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2021/02/kent-pf19.pptx.jpg?resize=600%2C600&ssl=1" alt="Airhedz Maxi-Phat De-Tangle Brush" loading="lazy" /></div><div class="product-body"><p class="product-brand">Kent</p><h3 class="product-name">Airhedz Maxi-Phat De-Tangle Brush</h3><p class="product-volume">PF19</p><div class="product-footer"><div><span class="product-price">R179.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
+<div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">&#9825;</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2021/02/kent-pf18.pptx.jpg?resize=600%2C600&ssl=1" alt="Airhedz Maxi-Phine Taming Brush" loading="lazy" /></div><div class="product-body"><p class="product-brand">Kent</p><h3 class="product-name">Airhedz Maxi-Phine Taming Brush</h3><p class="product-volume">PF18</p><div class="product-footer"><div><span class="product-price">R179.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
+<div class="product-card"><div class="product-img-wrap"><span class="product-tag">Handmade</span><button class="product-wishlist">&#9825;</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2021/02/kent-woodyhog.pptx.jpg?resize=600%2C600&ssl=1" alt="Large Beech Wood Quill WoodyHog Brush" loading="lazy" /></div><div class="product-body"><p class="product-brand">Kent</p><h3 class="product-name">Large Beech Wood Quill WoodyHog Brush</h3><p class="product-volume">KBWOODYHOG</p><div class="product-footer"><div><span class="product-price">R209.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
+<div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">&#9825;</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2021/02/kent-pf07.pptx.jpg?resize=600%2C600&ssl=1" alt="Large Rubber Cushion Brush" loading="lazy" /></div><div class="product-body"><p class="product-brand">Kent</p><h3 class="product-name">Large Rubber Cushion Brush</h3><p class="product-volume">PF07</p><div class="product-footer"><div><span class="product-price">R244.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
+<div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">&#9825;</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2021/02/kent-pf01.pptx.jpg?resize=600%2C600&ssl=1" alt="Large Rubber Pad Brush" loading="lazy" /></div><div class="product-body"><p class="product-brand">Kent</p><h3 class="product-name">Large Rubber Pad Brush</h3><p class="product-volume">PF01</p><div class="product-footer"><div><span class="product-price">R189.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
+<div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">&#9825;</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2021/02/BK8S-scaled.jpg?resize=600%2C600&ssl=1" alt="Large Synthetic Shaving Brush — Ivory White" loading="lazy" /></div><div class="product-body"><p class="product-brand">Kent</p><h3 class="product-name">Large Synthetic Shaving Brush — Ivory White</h3><p class="product-volume">BK8S</p><div class="product-footer"><div><span class="product-price">R359.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
+<div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">&#9825;</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2021/02/kent-ah13w.pptx.jpg?resize=600%2C600&ssl=1" alt="Medium Bristle Cushion Graphite Brush — White" loading="lazy" /></div><div class="product-body"><p class="product-brand">Kent</p><h3 class="product-name">Medium Bristle Cushion Graphite Brush — White</h3><p class="product-volume">AH13W</p><div class="product-footer"><div><span class="product-price">R249.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
+<div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">&#9825;</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2021/02/kent-ah9g.pptx.jpg?resize=600%2C600&ssl=1" alt="Medium Phine Pins Cushion Graphite Brush — Black" loading="lazy" /></div><div class="product-body"><p class="product-brand">Kent</p><h3 class="product-name">Medium Phine Pins Cushion Graphite Brush — Black</h3><p class="product-volume">AH9G</p><div class="product-footer"><div><span class="product-price">R199.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
+<div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">&#9825;</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2021/02/BLK4S-scaled.jpg?resize=600%2C600&ssl=1" alt="Medium Synthetic Shaving Brush — Black" loading="lazy" /></div><div class="product-body"><p class="product-brand">Kent</p><h3 class="product-name">Medium Synthetic Shaving Brush — Black</h3><p class="product-volume">BLK4S</p><div class="product-footer"><div><span class="product-price">R359.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
+<div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">&#9825;</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2021/02/BK4S-scaled.jpg?resize=600%2C600&ssl=1" alt="Medium Synthetic Shaving Brush — Ivory White" loading="lazy" /></div><div class="product-body"><p class="product-brand">Kent</p><h3 class="product-name">Medium Synthetic Shaving Brush — Ivory White</h3><p class="product-volume">BK4S</p><div class="product-footer"><div><span class="product-price">R349.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
+<div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">&#9825;</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2021/02/kent-mini-woody.pptx.jpg?resize=600%2C600&ssl=1" alt="Mini WoodyHog Brush" loading="lazy" /></div><div class="product-body"><p class="product-brand">Kent</p><h3 class="product-name">Mini WoodyHog Brush</h3><p class="product-volume">KBMINIW/HOG</p><div class="product-footer"><div><span class="product-price">R179.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
+<div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">&#9825;</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2021/02/kent-pf10.pptx.jpg?resize=600%2C600&ssl=1" alt="Small Handbag Brush" loading="lazy" /></div><div class="product-body"><p class="product-brand">Kent</p><h3 class="product-name">Small Handbag Brush</h3><p class="product-volume">PF10</p><div class="product-footer"><div><span class="product-price">R155.00</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
+<div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">&#9825;</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2021/02/kent-ah11g.pptx.jpg?resize=600%2C600&ssl=1" alt="Small Phine Pins Cushion Graphite Brush — Black" loading="lazy" /></div><div class="product-body"><p class="product-brand">Kent</p><h3 class="product-name">Small Phine Pins Cushion Graphite Brush — Black</h3><p class="product-volume">AH11G</p><div class="product-footer"><div><span class="product-price">R149.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
+<div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">&#9825;</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2021/02/kent-pf04.pptx.jpg?resize=600%2C600&ssl=1" alt="Small Radial Brush" loading="lazy" /></div><div class="product-body"><p class="product-brand">Kent</p><h3 class="product-name">Small Radial Brush</h3><p class="product-volume">PF04</p><div class="product-footer"><div><span class="product-price">R199.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
+<div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">&#9825;</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2024/08/kent-ah6w-airhedz.jpg?resize=600%2C600&ssl=1" alt="Airhedz AH6W Brush" loading="lazy" /></div><div class="product-body"><p class="product-brand">Kent</p><h3 class="product-name">Airhedz AH6W Brush</h3><p class="product-volume">AH6W</p><div class="product-footer"><div><span class="product-price">R219.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
+<div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">&#9825;</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2024/08/kent-ks50.jpg?resize=600%2C600&ssl=1" alt="KS50 Brush" loading="lazy" /></div><div class="product-body"><p class="product-brand">Kent</p><h3 class="product-name">KS50 Brush</h3><p class="product-volume">KS50</p><div class="product-footer"><div><span class="product-price">R199.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
+    </div>
+  </div>
+</section>
+</main>
+<footer class="footer"><div class="container">
+  <div class="footer-grid">
+    <div><div class="footer-logo-main">UK <em>Emporium</em></div><p class="footer-tagline">Quality imported goods from the UK</p><p class="footer-about">Cape Town&#39;s home of authentic British imports since 2004.</p><div class="social-links"><a href="https://facebook.com/UkEmporiumCpt/" class="social-link" target="_blank" rel="noopener">f</a><a href="https://instagram.com/ukemporium/" class="social-link" target="_blank" rel="noopener">ig</a><a href="https://tiktok.com/@ukemporiumcpt" class="social-link" target="_blank" rel="noopener">tt</a></div></div>
+    <div><p class="footer-col-title">Shop</p><ul class="footer-links"><li><a href="cat-beers.html">Beers &amp; Ales</a></li><li><a href="cat-confectionery.html">Confectionery</a></li><li><a href="cat-groceries.html">Groceries</a></li><li><a href="cat-hotdrinks.html">Hot Drinks</a></li><li><a href="cat-colddrinks.html">Cold Drinks</a></li><li><a href="cat-cleaning.html">Household Cleaning</a></li><li><a href="cat-personalcare.html">Personal Care</a></li><li><a href="cat-cereals.html">Cereals &amp; Breakfast</a></li><li><a href="cat-kent.html">Kent Hairbrushes</a></li></ul></div>
+    <div><p class="footer-col-title">Company</p><ul class="footer-links"><li><a href="index.html">Home</a></li><li><a href="our-brands.html">Our Brands</a></li><li><a href="about.html">About Us</a></li><li><a href="wholesale.html">Wholesale</a></li><li><a href="contact.html">Contact</a></li><li><a href="my-account.html">My Account</a></li></ul></div>
+    <div><p class="footer-col-title">Help</p><ul class="footer-links"><li><a href="contact.html">Delivery Info</a></li><li><a href="wholesale.html">Wholesale</a></li><li><a href="#">Terms</a></li><li><a href="#">Privacy</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><p class="footer-copy">Copyright &copy; 2026 UK Emporium. Cape Town branch only.</p><div class="footer-legal"><a href="#">Terms</a><a href="#">Privacy</a><a href="contact.html">Contact</a></div></div>
+</div></footer>
+<div class="sticky-cart-bar" id="stickyCart"><span class="scb-text">You&#39;re <strong>R1,000</strong> away from free delivery</span><button class="scb-btn">View cart</button></div>
+<script src="shared.js"></script>
+</body>
+</html>
