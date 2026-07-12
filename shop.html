@@ -22,7 +22,6 @@
     .promo-sidebar .code{background:rgba(255,255,255,.15);border:1px dashed rgba(255,255,255,.5);font-weight:800;letter-spacing:.1em;padding:.35rem .75rem;border-radius:2px;font-size:.9rem;display:inline-block;margin-bottom:.75rem}
     .promo-sidebar .btn-white{background:#fff;color:var(--red-bright);font-size:.75rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:.5rem 1rem;border-radius:var(--radius-sm);transition:var(--transition);display:inline-block}
     .promo-sidebar .btn-white:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.2)}
-    .shop-main{}
     .shop-toolbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:2rem;flex-wrap:wrap}
     .shop-count{font-size:.85rem;color:var(--mid-gray)}
     .shop-sort{display:flex;align-items:center;gap:.75rem}
@@ -43,10 +42,10 @@
 <body>
 <div class="ticker-bar"><div class="ticker-track">
   <span class="ticker-item">🇬🇧 Authentic British imports<span>·</span></span>
-  <span class="ticker-item">Buy any 5 Astonish triggers — 10% off · Code: <strong>AST10</strong><span>·</span></span>
+  <span class="ticker-item" data-promo><a data-promo-link style="color:inherit;text-decoration:none"><span data-promo-message>Buy any 5 Astonish triggers — 10% off</span><span data-promo-code-label> · Code: </span><strong data-promo-code>AST10</strong></a><span>·</span></span>
   <span class="ticker-item">Free delivery over R1,000 · Cape Town &amp; 60km radius<span>·</span></span>
   <span class="ticker-item">🇬🇧 Authentic British imports<span>·</span></span>
-  <span class="ticker-item">Buy any 5 Astonish triggers — 10% off · Code: <strong>AST10</strong><span>·</span></span>
+  <span class="ticker-item" data-promo><a data-promo-link style="color:inherit;text-decoration:none"><span data-promo-message>Buy any 5 Astonish triggers — 10% off</span><span data-promo-code-label> · Code: </span><strong data-promo-code>AST10</strong></a><span>·</span></span>
   <span class="ticker-item">Free delivery over R1,000 · Cape Town &amp; 60km radius<span>·</span></span>
 </div></div>
 
@@ -70,9 +69,9 @@
 <div class="page-hero">
   <div class="page-hero-content">
     <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span style="color:var(--gold-light);">Shop</span></div>
-    <p class="page-hero-label">All products</p>
-    <h1 class="page-hero-title">The <em>full collection</em></h1>
-    <p class="page-hero-sub">Authentic British imports across 13 categories — from household staples to specialty finds.</p>
+    <p class="page-hero-label" data-tt8-edit="page.eyebrow">All products</p>
+    <h1 class="page-hero-title" data-tt8-edit="page.title" data-tt8-rich>The <em>full collection</em></h1>
+    <p class="page-hero-sub" data-tt8-edit="page.subtitle">Authentic British imports across 9 categories — from household staples to specialty finds.</p>
   </div>
 </div>
 
@@ -89,16 +88,16 @@
       <aside class="shop-sidebar">
         <p class="sidebar-title">Categories</p>
         <ul class="cat-filter-list">
-          <li><a href="shop.html" class="active">All categories <span class="badge">9</span></a></li>
-          <li><a href="cat-beers.html">Beers &amp; Ales <span class="badge">55</span></a></li>
-          <li><a href="cat-confectionery.html">Confectionery <span class="badge">200</span></a></li>
-          <li><a href="cat-groceries.html">Groceries <span class="badge">171</span></a></li>
-          <li><a href="cat-hotdrinks.html">Hot Drinks <span class="badge">72</span></a></li>
-          <li><a href="cat-colddrinks.html">Cold Drinks <span class="badge">79</span></a></li>
-          <li><a href="cat-cleaning.html">Household Cleaning <span class="badge">100</span></a></li>
-          <li><a href="cat-personalcare.html">Personal Care <span class="badge">153</span></a></li>
-          <li><a href="cat-cereals.html">Cereals &amp; Breakfast <span class="badge">35</span></a></li>
-          <li><a href="cat-kent.html">Kent Hairbrushes <span class="badge">18</span></a></li>
+          <li><a href="shop.html" class="active">All categories <span class="badge" data-count="categories"></span></a></li>
+          <li><a href="cat-beers.html">Beers &amp; Ales <span class="badge" data-count="cat:beers"></span></a></li>
+          <li><a href="cat-confectionery.html">Confectionery <span class="badge" data-count="cat:confectionery"></span></a></li>
+          <li><a href="cat-groceries.html">Groceries <span class="badge" data-count="cat:groceries"></span></a></li>
+          <li><a href="cat-hotdrinks.html">Hot Drinks <span class="badge" data-count="cat:hotdrinks"></span></a></li>
+          <li><a href="cat-colddrinks.html">Cold Drinks <span class="badge" data-count="cat:colddrinks"></span></a></li>
+          <li><a href="cat-cleaning.html">Household Cleaning <span class="badge" data-count="cat:cleaning"></span></a></li>
+          <li><a href="cat-personalcare.html">Personal Care <span class="badge" data-count="cat:personalcare"></span></a></li>
+          <li><a href="cat-cereals.html">Cereals &amp; Breakfast <span class="badge" data-count="cat:cereals"></span></a></li>
+          <li><a href="cat-kent.html">Kent Hairbrushes <span class="badge" data-count="cat:kent"></span></a></li>
         </ul>
         <div class="promo-sidebar">
           <h4>10% off Astonish</h4>
@@ -129,7 +128,7 @@
         </div>
 
         <div class="shop-toolbar">
-          <p class="shop-count">Browse <strong>883+</strong> products across 9 categories</p>
+          <p class="shop-count">Browse <strong data-count="total"></strong> products across <span data-count="categories"></span> categories</p>
           <div class="shop-sort">
             <label for="sort-select" style="font-size:.82rem;color:var(--mid-gray);">Sort by:</label>
             <select id="sort-select">
@@ -144,19 +143,10 @@
         <!-- Household Cleaning -->
         <div class="cat-section" id="cleaning">
           <div class="cat-section-header">
-            <div class="cat-section-title"><span class="emoji">🧹</span> Household Cleaning</div>
-            <a href="cat-cleaning.html" class="cat-section-link">View all 100 →</a>
+            <div class="cat-section-title" data-tt8-edit="category.1.title" data-tt8-rich><span class="emoji">🧹</span> Household Cleaning</div>
+            <a href="cat-cleaning.html" class="cat-section-link">View all <span data-count="cat:cleaning"></span> →</a>
           </div>
-          <div class="products-grid-4 reveal">
-            <div class="product-card"><div class="product-img-wrap"><span class="product-tag">Best seller</span><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2024/03/bb-Astonish-Multi-Surface-Trigger.pptx.png?resize=600%2C600&ssl=1" alt="Astonish Trigger Multi-Surface Cleaner Orange Grove 750ml" loading="lazy" /></div><div class="product-body"><p class="product-brand">Astonish</p><h3 class="product-name">Multi-Surface Cleaner Orange Grove</h3><p class="product-volume">750ml</p><div class="product-footer"><div><span class="product-price">R39.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-            <div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2024/03/bb-Astonish-Bathroom-Cleaner-Trigger.pptx.png?resize=600%2C600&ssl=1" alt="Astonish Trigger Bathroom Cleaner White Jasmine &amp; Basil 750ml" loading="lazy" /></div><div class="product-body"><p class="product-brand">Astonish</p><h3 class="product-name">Bathroom Cleaner White Jasmine &amp; Basil</h3><p class="product-volume">750ml</p><div class="product-footer"><div><span class="product-price">R39.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-            <div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2024/03/bb-Astonish-Kitchen-Cleaner-trigger.pptx.png?resize=600%2C600&ssl=1" alt="Astonish Trigger Kitchen Cleaner 750ml" loading="lazy" /></div><div class="product-body"><p class="product-brand">Astonish</p><h3 class="product-name">Kitchen Cleaner</h3><p class="product-volume">750ml</p><div class="product-footer"><div><span class="product-price">R39.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-            <div class="product-card"><div class="product-img-wrap"><span class="product-tag gold-tag">Specialty</span><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2025/05/bb-Astonish-Air-Fryer-Cleaner-Trigger.pptx.png?resize=600%2C600&ssl=1" alt="Astonish Trigger Air Fryer Cleaner 750ml" loading="lazy" /></div><div class="product-body"><p class="product-brand">Astonish</p><h3 class="product-name">Air Fryer Cleaner</h3><p class="product-volume">750ml</p><div class="product-footer"><div><span class="product-price">R39.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-            <div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2024/03/bb-Astonish-Window-Glass-Trigger.pptx.png?resize=600%2C600&ssl=1" alt="Astonish Trigger Window &amp; Glass Cleaner 750ml" loading="lazy" /></div><div class="product-body"><p class="product-brand">Astonish</p><h3 class="product-name">Window &amp; Glass Cleaner</h3><p class="product-volume">750ml</p><div class="product-footer"><div><span class="product-price">R39.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-            <div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2024/03/bb-Astonish-Mould-Blast-Trigger.pptx.png?resize=600%2C600&ssl=1" alt="Astonish Trigger Mold &amp; Mildew Stain Blaster 750ml" loading="lazy" /></div><div class="product-body"><p class="product-brand">Astonish</p><h3 class="product-name">Mold &amp; Mildew Stain Blaster</h3><p class="product-volume">750ml</p><div class="product-footer"><div><span class="product-price">R39.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-            <div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2024/03/bb-Astonish-Anti-Bac-Trigger.pptx.png?resize=600%2C600&ssl=1" alt="Astonish Trigger Antibacterial Surface Cleanser 750ml" loading="lazy" /></div><div class="product-body"><p class="product-brand">Astonish</p><h3 class="product-name">Antibacterial Surface Cleanser</h3><p class="product-volume">750ml</p><div class="product-footer"><div><span class="product-price">R39.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-            <div class="product-card"><div class="product-img-wrap"><span class="product-tag">Popular</span><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2025/11/bb-Astonish-Pet-Fresh-Stain-Remover-Trigger-.pptx.png?resize=600%2C600&ssl=1" alt="Astonish Trigger Pet Fresh Stain Remover 750ml" loading="lazy" /></div><div class="product-body"><p class="product-brand">Astonish</p><h3 class="product-name">Pet Fresh Stain Remover</h3><p class="product-volume">750ml</p><div class="product-footer"><div><span class="product-price">R49.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-          </div>
+          <div class="products-grid-4 reveal" data-featured="shop:cleaning"></div>
           <div style="margin-top:1.25rem;text-align:center;padding:1.25rem;background:var(--warm-white);border-radius:var(--radius-md);border:1px dashed rgba(201,152,42,.3);">
             <p style="font-size:.85rem;color:var(--mid-gray);">+ 10 more Astonish variants: Stainless Steel Shine, Bicarb Soda, Bleach Cleaner, Fabric Refresher &amp; more</p>
           </div>
@@ -164,90 +154,50 @@
 
         <!-- Groceries -->
         <div class="cat-section" id="groceries">
-          <div class="cat-section-header"><div class="cat-section-title"><span class="emoji">🛒</span> Groceries</div><a href="cat-groceries.html" class="cat-section-link">View all 171 →</a></div>
-          <div class="products-grid-4 reveal">
-            <div class="product-card"><div class="product-img-wrap"><span class="product-tag">Classic</span><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2025/10/bb-Branston-Pickle-Original-360g.pptx.png?resize=600%2C600&ssl=1" alt="Branston Pickle Original 360g" loading="lazy" /></div><div class="product-body"><p class="product-brand">Branston</p><h3 class="product-name">Pickle Original</h3><p class="product-volume">360g</p><div class="product-footer"><div><span class="product-price">R79.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-            <div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2024/03/bb-Bisto-Beef-Granules-190g.pptx.png?resize=600%2C600&ssl=1" alt="Bisto Gravy Granules Original 190g" loading="lazy" /></div><div class="product-body"><p class="product-brand">Bisto</p><h3 class="product-name">Gravy Granules Original</h3><p class="product-volume">190g</p><div class="product-footer"><div><span class="product-price">R139.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-            <div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2021/01/Batchelors-Mushy-Peas-Chip-Shop-300-g.jpg?resize=600%2C600&ssl=1" alt="Batchelors Mushy Peas Chip Shop Style 300g" loading="lazy" /></div><div class="product-body"><p class="product-brand">Batchelors</p><h3 class="product-name">Mushy Peas "Chip Shop Style"</h3><p class="product-volume">300g</p><div class="product-footer"><div><span class="product-price">R46.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-            <div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2021/01/Ambrosia-Rice-Pud-Orig-400.jpg?resize=600%2C600&ssl=1" alt="Ambrosia Rice Pudding 400g" loading="lazy" /></div><div class="product-body"><p class="product-brand">Ambrosia</p><h3 class="product-name">Rice Pudding</h3><p class="product-volume">400g</p><div class="product-footer"><div><span class="product-price">R73.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-          </div>
+          <div class="cat-section-header"><div class="cat-section-title" data-tt8-edit="category.2.title" data-tt8-rich><span class="emoji">🛒</span> Groceries</div><a href="cat-groceries.html" class="cat-section-link">View all <span data-count="cat:groceries"></span> →</a></div>
+          <div class="products-grid-4 reveal" data-featured="shop:groceries"></div>
         </div>
 
         <!-- Confectionery -->
         <div class="cat-section" id="confectionery">
-          <div class="cat-section-header"><div class="cat-section-title"><span class="emoji">🍬</span> Confectionery</div><a href="cat-confectionery.html" class="cat-section-link">View all 200 →</a></div>
-          <div class="products-grid-4 reveal">
-            <div class="product-card"><div class="product-img-wrap"><span class="product-tag">Favourite</span><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2021/04/dolly-mix.pptx.jpg?resize=600%2C600&ssl=1" alt="Barratt Dolly Mix 150g" loading="lazy" /></div><div class="product-body"><p class="product-brand">Barratt</p><h3 class="product-name">Dolly Mix</h3><p class="product-volume">150g</p><div class="product-footer"><div><span class="product-price">R44.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-            <div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2025/02/5010511481347.jpg?resize=600%2C600&ssl=1" alt="Barratt Milk Bottles 150g" loading="lazy" /></div><div class="product-body"><p class="product-brand">Barratt</p><h3 class="product-name">Milk Bottles</h3><p class="product-volume">150g</p><div class="product-footer"><div><span class="product-price">R55.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-            <div class="product-card"><div class="product-img-wrap"><span class="product-tag">British</span><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2024/03/bb-Cadbury-Curly-Wurly-21.5g-ChatGPT.pptx-1.png?resize=600%2C600&ssl=1" alt="Cadbury Curly Wurly 21.5g" loading="lazy" /></div><div class="product-body"><p class="product-brand">Cadbury</p><h3 class="product-name">Curly Wurly</h3><p class="product-volume">21.5g</p><div class="product-footer"><div><span class="product-price">R12.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-            <div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2024/03/bb-Cadbury-Wispa-Duo-47.4g-ChatGPT.pptx.png?resize=600%2C600&ssl=1" alt="Cadbury Wispa Duo 47.4g" loading="lazy" /></div><div class="product-body"><p class="product-brand">Cadbury</p><h3 class="product-name">Wispa Duo</h3><p class="product-volume">47.4g</p><div class="product-footer"><div><span class="product-price">R45.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-          </div>
+          <div class="cat-section-header"><div class="cat-section-title" data-tt8-edit="category.3.title" data-tt8-rich><span class="emoji">🍬</span> Confectionery</div><a href="cat-confectionery.html" class="cat-section-link">View all <span data-count="cat:confectionery"></span> →</a></div>
+          <div class="products-grid-4 reveal" data-featured="shop:confectionery"></div>
         </div>
 
         <!-- Hot Drinks -->
         <div class="cat-section" id="hotdrinks">
-          <div class="cat-section-header"><div class="cat-section-title"><span class="emoji">☕</span> Hot Drinks</div><a href="cat-hotdrinks.html" class="cat-section-link">View all 72 →</a></div>
-          <div class="products-grid-4 reveal">
-            <div class="product-card"><div class="product-img-wrap"><span class="product-tag">Best seller</span><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2024/03/bb-Taylors-Yorkshire-Tea-80s.pptx.png?resize=600%2C600&ssl=1" alt="Taylors Yorkshire Tea 80 Teabags" loading="lazy" /></div><div class="product-body"><p class="product-brand">Taylors of Harrogate</p><h3 class="product-name">Yorkshire Tea</h3><p class="product-volume">80 Teabags</p><div class="product-footer"><div><span class="product-price">R187.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-            <div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2024/03/PG-Tips-80-Teabags.webp?resize=600%2C600&ssl=1" alt="PG Tips Original 80 Pyramid Teabags" loading="lazy" /></div><div class="product-body"><p class="product-brand">PG Tips</p><h3 class="product-name">Original</h3><p class="product-volume">80 Pyramid Teabags</p><div class="product-footer"><div><span class="product-price">R149.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-            <div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2024/03/Cadbury-Drinking-Chocolate-250g.png?resize=600%2C600&ssl=1" alt="Cadbury Hot Drinking Chocolate 250g" loading="lazy" /></div><div class="product-body"><p class="product-brand">Cadbury</p><h3 class="product-name">Hot Drinking Chocolate</h3><p class="product-volume">250g</p><div class="product-footer"><div><span class="product-price">R94.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-            <div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2021/11/Horlicks-500g.jpg?resize=600%2C600&ssl=1" alt="Horlicks Original 400g" loading="lazy" /></div><div class="product-body"><p class="product-brand">Horlicks</p><h3 class="product-name">"Original"</h3><p class="product-volume">400g</p><div class="product-footer"><div><span class="product-price">R169.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-          </div>
+          <div class="cat-section-header"><div class="cat-section-title" data-tt8-edit="category.4.title" data-tt8-rich><span class="emoji">☕</span> Hot Drinks</div><a href="cat-hotdrinks.html" class="cat-section-link">View all <span data-count="cat:hotdrinks"></span> →</a></div>
+          <div class="products-grid-4 reveal" data-featured="shop:hotdrinks"></div>
         </div>
 
         <!-- Cold Drinks -->
         <div class="cat-section" id="colddrinks">
-          <div class="cat-section-header"><div class="cat-section-title"><span class="emoji">🥤</span> Cold Drinks</div><a href="cat-colddrinks.html" class="cat-section-link">View all 79 →</a></div>
-          <div class="products-grid-4 reveal">
-            <div class="product-card"><div class="product-img-wrap"><span class="product-tag gold-tag">Premium</span><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2021/01/Belvoir-Elderflower-Cordial-500ml.jpg?resize=600%2C600&ssl=1" alt="Belvoir Elderflower Cordial 500ml" loading="lazy" /></div><div class="product-body"><p class="product-brand">Belvoir</p><h3 class="product-name">Elderflower Cordial</h3><p class="product-volume">500ml</p><div class="product-footer"><div><span class="product-price">R109.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-            <div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2021/01/Belvoir-Elderflower-Rose-Cordial-500ml.jpg?resize=600%2C600&ssl=1" alt="Belvoir Elderflower &amp; Rose Cordial 500ml" loading="lazy" /></div><div class="product-body"><p class="product-brand">Belvoir</p><h3 class="product-name">Elderflower &amp; Rose Cordial</h3><p class="product-volume">500ml</p><div class="product-footer"><div><span class="product-price">R109.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-            <div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2024/03/Barr-Cream-Soda-330ml-1.jpg?resize=600%2C600&ssl=1" alt="Barr's American Cream Soda 330ml" loading="lazy" /></div><div class="product-body"><p class="product-brand">Barr's</p><h3 class="product-name">American Cream Soda</h3><p class="product-volume">330ml</p><div class="product-footer"><div><span class="product-price">R22.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-            <div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2020/10/dr-pepper.webp?resize=600%2C600&ssl=1" alt="Dr Pepper 330ml" loading="lazy" /></div><div class="product-body"><p class="product-brand">Dr Pepper</p><h3 class="product-name">Dr Pepper</h3><p class="product-volume">330ml</p><div class="product-footer"><div><span class="product-price">R21.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-          </div>
+          <div class="cat-section-header"><div class="cat-section-title" data-tt8-edit="category.5.title" data-tt8-rich><span class="emoji">🥤</span> Cold Drinks</div><a href="cat-colddrinks.html" class="cat-section-link">View all <span data-count="cat:colddrinks"></span> →</a></div>
+          <div class="products-grid-4 reveal" data-featured="shop:colddrinks"></div>
         </div>
 
         <!-- Beers & Ales -->
         <div class="cat-section" id="beers">
-          <div class="cat-section-header"><div class="cat-section-title"><span class="emoji">🍺</span> Beers &amp; Ales</div><a href="cat-beers.html" class="cat-section-link">View all 55 →</a></div>
-          <div class="products-grid-4 reveal">
-            <div class="product-card"><div class="product-img-wrap"><span class="product-tag">Irish stout</span><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2024/04/guinness-draught.jpeg?resize=600%2C600&ssl=1" alt="Guinness Original Draught 4x440ml" loading="lazy" /></div><div class="product-body"><p class="product-brand">Guinness</p><h3 class="product-name">Original Draught</h3><p class="product-volume">4×440ml</p><div class="product-footer"><div><span class="product-price">R149.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-            <div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2024/04/Abbott-Ale-500ml.jpg?resize=600%2C600&ssl=1" alt="Abbott Ale 500ml" loading="lazy" /></div><div class="product-body"><p class="product-brand">Abbott</p><h3 class="product-name">Abbott Ale</h3><p class="product-volume">500ml</p><div class="product-footer"><div><span class="product-price">R84.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-            <div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2025/05/birra_moretti.jpg?resize=600%2C600&ssl=1" alt="Birra Moretti 330ml" loading="lazy" /></div><div class="product-body"><p class="product-brand">Birra Moretti</p><h3 class="product-name">Birra Moretti</h3><p class="product-volume">330ml</p><div class="product-footer"><div><span class="product-price">R57.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-            <div class="product-card"><div class="product-img-wrap"><span class="product-tag gold-tag">British ale</span><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2024/04/Black-Sheep-Ale-500ml.jpg?resize=600%2C600&ssl=1" alt="Black Sheep Ale 500ml" loading="lazy" /></div><div class="product-body"><p class="product-brand">Black Sheep</p><h3 class="product-name">Black Sheep Ale</h3><p class="product-volume">500ml</p><div class="product-footer"><div><span class="product-price">R89.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-          </div>
+          <div class="cat-section-header"><div class="cat-section-title" data-tt8-edit="category.6.title" data-tt8-rich><span class="emoji">🍺</span> Beers &amp; Ales</div><a href="cat-beers.html" class="cat-section-link">View all <span data-count="cat:beers"></span> →</a></div>
+          <div class="products-grid-4 reveal" data-featured="shop:beers"></div>
         </div>
 
         <!-- Personal Care & Beauty -->
         <div class="cat-section" id="beauty">
-          <div class="cat-section-header"><div class="cat-section-title"><span class="emoji">✨</span> Personal Care &amp; Beauty</div><a href="cat-personalcare.html" class="cat-section-link">View all 153 →</a></div>
-          <div class="products-grid-4 reveal">
-            <div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2021/01/Alberto-Balsam-Coconut-Lychee-Shampoo-350ml.jpg?resize=600%2C600&ssl=1" alt="Alberto Balsam Coconut &amp; Lychee Shampoo 350ml" loading="lazy" /></div><div class="product-body"><p class="product-brand">Alberto Balsam</p><h3 class="product-name">Coconut &amp; Lychee Shampoo</h3><p class="product-volume">350ml</p><div class="product-footer"><div><span class="product-price">R49.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-            <div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2021/01/Alberto-Balsam-Coconut-Lychee-Conditioner-350ml.jpg.jpg?resize=600%2C600&ssl=1" alt="Alberto Balsam Coconut &amp; Lychee Conditioner 350ml" loading="lazy" /></div><div class="product-body"><p class="product-brand">Alberto Balsam</p><h3 class="product-name">Coconut &amp; Lychee Conditioner</h3><p class="product-volume">350ml</p><div class="product-footer"><div><span class="product-price">R49.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-            <div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2021/01/Baylis-Harding-Jasmine-Apple-Blossom-Anti-Bacterial-Hand-Wash-500ml.jpg?resize=600%2C600&ssl=1" alt="Baylis &amp; Harding Jasmine &amp; Apple Blossom Anti-Bacterial Handwash 500ml" loading="lazy" /></div><div class="product-body"><p class="product-brand">Baylis &amp; Harding</p><h3 class="product-name">Jasmine &amp; Apple Blossom Handwash</h3><p class="product-volume">500ml</p><div class="product-footer"><div><span class="product-price">R79.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-            <div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2021/01/Enliven-Coconut-Vanilla-Shampoo-400ml.jpg?resize=600%2C600&ssl=1" alt="Enliven Coconut &amp; Vanilla Shampoo 400ml" loading="lazy" /></div><div class="product-body"><p class="product-brand">Enliven</p><h3 class="product-name">Coconut &amp; Vanilla Shampoo</h3><p class="product-volume">400ml</p><div class="product-footer"><div><span class="product-price">R48.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-          </div>
+          <div class="cat-section-header"><div class="cat-section-title" data-tt8-edit="category.7.title" data-tt8-rich><span class="emoji">✨</span> Personal Care &amp; Beauty</div><a href="cat-personalcare.html" class="cat-section-link">View all <span data-count="cat:personalcare"></span> →</a></div>
+          <div class="products-grid-4 reveal" data-featured="shop:beauty"></div>
         </div>
 
         <!-- Cereals & Breakfast -->
         <div class="cat-section" id="snacks">
-          <div class="cat-section-header"><div class="cat-section-title"><span class="emoji">🥣</span> Cereals &amp; Breakfast</div><a href="cat-cereals.html" class="cat-section-link">View all 35 →</a></div>
-          <div class="products-grid-4 reveal">
-            <div class="product-card"><div class="product-img-wrap"><span class="product-tag">British</span><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2020/10/Kelloggs-Frosties-500.jpg?resize=600%2C600&ssl=1" alt="Kellogg's Frosties 470g" loading="lazy" /></div><div class="product-body"><p class="product-brand">Kellogg's</p><h3 class="product-name">Frosties</h3><p class="product-volume">470g</p><div class="product-footer"><div><span class="product-price">R159.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-            <div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2020/11/Kelloggs-C-Nut-500g.jpg?resize=600%2C600&ssl=1" alt="Kellogg's Crunchy Nut Cornflakes 460g" loading="lazy" /></div><div class="product-body"><p class="product-brand">Kellogg's</p><h3 class="product-name">Crunchy Nut Cornflakes</h3><p class="product-volume">460g</p><div class="product-footer"><div><span class="product-price">R159.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-            <div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2024/03/jordans-400g.jpg?resize=600%2C600&ssl=1" alt="Jordans Country Crisp with Crunchy Chunky Nuts 450g" loading="lazy" /></div><div class="product-body"><p class="product-brand">Jordans</p><h3 class="product-name">Country Crisp with Crunchy Chunky Nuts</h3><p class="product-volume">450g</p><div class="product-footer"><div><span class="product-price">R119.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-            <div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2021/11/Kelloggs-Coco-Pops-Bars-6x20g.jpg?resize=600%2C600&ssl=1" alt="Kellogg's Coco Pops Bars 6 Bars x 20g" loading="lazy" /></div><div class="product-body"><p class="product-brand">Kellogg's</p><h3 class="product-name">Coco Pops Bars</h3><p class="product-volume">6 Bars x 20g</p><div class="product-footer"><div><span class="product-price">R59.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-          </div>
+          <div class="cat-section-header"><div class="cat-section-title" data-tt8-edit="category.8.title" data-tt8-rich><span class="emoji">🥣</span> Cereals &amp; Breakfast</div><a href="cat-cereals.html" class="cat-section-link">View all <span data-count="cat:cereals"></span> →</a></div>
+          <div class="products-grid-4 reveal" data-featured="shop:snacks"></div>
         </div>
 
         <!-- Kent Hairbrushes -->
         <div class="cat-section" id="kent">
-          <div class="cat-section-header"><div class="cat-section-title"><span class="emoji">💈</span> Kent Hairbrushes</div><a href="cat-kent.html" class="cat-section-link">View all 18 →</a></div>
-          <div class="products-grid-4 reveal">
-            <div class="product-card"><div class="product-img-wrap"><span class="product-tag gold-tag">Handmade</span><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2021/02/kent-woodyhog.pptx.jpg?resize=600%2C600&ssl=1" alt="Kent Large Beech Wood Quill WoodyHog Brush KBWOODYHOG" loading="lazy" /></div><div class="product-body"><p class="product-brand">Kent</p><h3 class="product-name">Large Beech Wood Quill WoodyHog Brush</h3><p class="product-volume">KBWOODYHOG</p><div class="product-footer"><div><span class="product-price">R209.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-            <div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2021/02/kent-pf07.pptx.jpg?resize=600%2C600&ssl=1" alt="Kent Large Rubber Cushion Brush PF07" loading="lazy" /></div><div class="product-body"><p class="product-brand">Kent</p><h3 class="product-name">Large Rubber Cushion Brush</h3><p class="product-volume">PF07</p><div class="product-footer"><div><span class="product-price">R244.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-            <div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2021/02/kent-pf01.pptx.jpg?resize=600%2C600&ssl=1" alt="Kent Large Rubber Pad Brush PF01" loading="lazy" /></div><div class="product-body"><p class="product-brand">Kent</p><h3 class="product-name">Large Rubber Pad Brush</h3><p class="product-volume">PF01</p><div class="product-footer"><div><span class="product-price">R189.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-            <div class="product-card"><div class="product-img-wrap"><button class="product-wishlist">♡</button><img src="https://i0.wp.com/www.uke.co.za/wp-content/uploads/2021/02/kent-spc86.pptx.jpg?resize=600%2C600&ssl=1" alt="Kent 10 Pronged Afro Style Comb SPC86" loading="lazy" /></div><div class="product-body"><p class="product-brand">Kent</p><h3 class="product-name">10 Pronged Afro Style Comb</h3><p class="product-volume">SPC86</p><div class="product-footer"><div><span class="product-price">R79.90</span></div><button class="btn-add-cart">Add to cart</button></div></div></div>
-          </div>
+          <div class="cat-section-header"><div class="cat-section-title" data-tt8-edit="category.9.title" data-tt8-rich><span class="emoji">💈</span> Kent Hairbrushes</div><a href="cat-kent.html" class="cat-section-link">View all <span data-count="cat:kent"></span> →</a></div>
+          <div class="products-grid-4 reveal" data-featured="shop:kent"></div>
         </div>
 
       </div>
@@ -268,5 +218,8 @@
 
 <div class="sticky-cart-bar" id="stickyCart"><span class="scb-text">You're <strong>R1,000</strong> away from free delivery</span><button class="scb-btn">View cart</button></div>
 <script src="shared.js"></script>
+<script src="js/render-products.js"></script>
+<script src="/editor/overlay.js"></script>
+<script>TT8Editor.configure({ mode: "demo", siteId: "uke", page: "shop.html" });</script>
 </body>
 </html>

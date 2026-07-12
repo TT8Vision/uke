@@ -1,0 +1,156 @@
+{
+  "cleaning": [
+    {
+      "id": "uke-0146",
+      "tag": "Best seller"
+    },
+    {
+      "id": "uke-0138"
+    },
+    {
+      "id": "uke-0142"
+    },
+    {
+      "id": "uke-0136",
+      "tag": "Specialty",
+      "gold": true
+    },
+    {
+      "id": "uke-0152"
+    },
+    {
+      "id": "uke-0143"
+    },
+    {
+      "id": "uke-0137"
+    },
+    {
+      "id": "uke-0149",
+      "tag": "Popular"
+    }
+  ],
+  "groceries": [
+    {
+      "id": "uke-0513",
+      "tag": "Classic"
+    },
+    {
+      "id": "uke-0506"
+    },
+    {
+      "id": "uke-0498"
+    },
+    {
+      "id": "uke-0485"
+    }
+  ],
+  "confectionery": [
+    {
+      "id": "uke-0269",
+      "tag": "Favourite"
+    },
+    {
+      "id": "uke-0270"
+    },
+    {
+      "id": "uke-0293",
+      "tag": "British"
+    },
+    {
+      "id": "uke-0323"
+    }
+  ],
+  "hotdrinks": [
+    {
+      "id": "uke-0661",
+      "tag": "Best seller"
+    },
+    {
+      "id": "uke-0657"
+    },
+    {
+      "id": "uke-0640"
+    },
+    {
+      "id": "uke-0649"
+    }
+  ],
+  "colddrinks": [
+    {
+      "id": "uke-0198",
+      "tag": "Premium",
+      "gold": true
+    },
+    {
+      "id": "uke-0197"
+    },
+    {
+      "id": "uke-0192"
+    },
+    {
+      "id": "uke-0219"
+    }
+  ],
+  "beers": [
+    {
+      "id": "uke-0022",
+      "tag": "Irish stout"
+    },
+    {
+      "id": "uke-0001"
+    },
+    {
+      "id": "uke-0006"
+    },
+    {
+      "id": "uke-0010",
+      "tag": "British ale",
+      "gold": true
+    }
+  ],
+  "beauty": [
+    {
+      "id": "uke-0731"
+    },
+    {
+      "id": "uke-0730"
+    },
+    {
+      "id": "uke-0752"
+    },
+    {
+      "id": "uke-0780"
+    }
+  ],
+  "snacks": [
+    {
+      "id": "uke-0061",
+      "tag": "British"
+    },
+    {
+      "id": "uke-0060"
+    },
+    {
+      "id": "uke-0057"
+    },
+    {
+      "id": "uke-0059"
+    }
+  ],
+  "kent": [
+    {
+      "id": "uke-0716",
+      "tag": "Handmade",
+      "gold": true
+    },
+    {
+      "id": "uke-0717"
+    },
+    {
+      "id": "uke-0718"
+    },
+    {
+      "id": "uke-0712"
+    }
+  ]
+}

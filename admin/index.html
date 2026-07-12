@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>UK Emporium — Content admin</title>
+</head>
+<body>
+  <!-- Decap auto-mounts on load. Defer it so widgets and the preSave hook are
+       registered BEFORE the app renders (and so init runs exactly once). -->
+  <script>window.CMS_MANUAL_INIT = true;</script>
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <script>
+  /* ── TT8 admin behaviour ──────────────────────────────────────────
+     Two things the client must never do by hand:
+       1. type a product id   — the featured lists reference products by id,
+                                so ids are generated here and locked in the UI
+       2. type a SKU          — manufacturer codes (Kent) are read-only
+
+     Everything else is a plain Decap field. Prices written here land in
+     data/products.json, which is the same file the site and cart already read.
+     ────────────────────────────────────────────────────────────────── */
+
+  (function () {
+    // Decap's CDN bundle exposes its element factory as `h` and a component
+    // helper as `createClass` — it does NOT expose `React` on window.
+    const h = window.h;
+    const createClass = window.createClass;
+
+    // ── Read-only widget (used for id and sku) ────────────────────────
+    // Renders the value, disabled. There is no code path that lets the client
+    // change it, and its stored value passes through save untouched.
+    const ReadonlyControl = createClass({
+      render: function () {
+        const raw = this.props.value;
+        const value = raw == null || raw === '' ? '—' : String(raw);
+        return h('input', {
+          type: 'text',
+          id: this.props.forID,
+          className: this.props.classNameWrapper,
+          value: value,
+          readOnly: true,
+          disabled: true,
+          tabIndex: -1,
+          style: {
+            background: '#eceff1',
+            color: '#5a6873',
+            cursor: 'not-allowed',
+            fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
+          },
+        });
+      },
+    });
+
+    const ReadonlyPreview = createClass({
+      render: function () {
+        const raw = this.props.value;
+        return h('div', {}, raw == null ? '' : String(raw));
+      },
+    });
+
+    CMS.registerWidget('readonly', ReadonlyControl, ReadonlyPreview);
+
+    // ── Normalise + auto-generate on save ─────────────────────────────
+    // Decap hands us the whole entry as an Immutable Map. For the products
+    // file we walk the list and fix up anything the form cannot express.
+    const ID_RE = /^uke-(\d+)$/;
+    const pad = n => 'uke-' + String(n).padStart(4, '0');
+    const today = () => new Date().toISOString().slice(0, 10);
+
+    CMS.registerEventListener({
+      name: 'preSave',
+      handler: function ({ entry }) {
+        const data = entry.get('data');
+        const list = data.get('products');
+        if (!list) return data; // the settings entry — nothing to do
+
+        // Highest existing id wins, so a new product always lands above the
+        // catalogue and can never collide with an id already in use.
+        let max = 0;
+        list.forEach(p => {
+          const m = ID_RE.exec(String(p.get('id') || ''));
+          if (m) max = Math.max(max, parseInt(m[1], 10));
+        });
+
+        const next = list.map(p => {
+          let q = p;
+
+          // 1. id: generated for new rows, never for existing ones
+          if (!q.get('id')) {
+            max += 1;
+            q = q.set('id', pad(max));
+          }
+
+          // 2. dateAdded: stamped on creation, so the "New in store" strip can
+          //    order by it without the client having to think about it
+          if (!q.get('dateAdded')) q = q.set('dateAdded', today());
+
+          // 3. "None" is a UI affordance, not data — a badge is null or a string
+          const tag = q.get('tag');
+          if (tag === 'None' || tag === '' || tag === undefined) q = q.set('tag', null);
+
+          // 4. blank optional fields are null, never 0 and never ""
+          //    (an oldPrice of 0 would render a bogus "R0.00" strikethrough)
+          ['oldPrice', 'sku', 'volume'].forEach(k => {
+            const v = q.get(k);
+            if (v === '' || v === undefined) q = q.set(k, null);
+          });
+
+          // 5. flags always present
+          if (q.get('inStock') === undefined) q = q.set('inStock', true);
+          if (q.get('new') === undefined) q = q.set('new', false);
+
+          return q;
+        });
+
+        return data.set('products', next);
+      },
+    });
+
+    CMS.init();
+  })();
+  </script>
+</body>
+</html>

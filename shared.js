@@ -1,5 +1,12 @@
 /* ── Shared JS for UK Emporium redesign ── */
 
+// Single money formatter for the whole site: 199.9 -> "R199.90".
+// Prices live as numbers in data/products.json and are only ever formatted for
+// display — never parsed back out of the DOM.
+function formatPrice(n) {
+  return 'R' + Number(n).toFixed(2);
+}
+
 // ── Cart Manager ──────────────────────────────────────────────────
 const Cart = {
   items: [],
@@ -7,46 +14,95 @@ const Cart = {
   load() {
     try { this.items = JSON.parse(localStorage.getItem('uke_cart') || '[]'); }
     catch { this.items = []; }
+    // Carts saved by the pre-JSON build stored price as the string "R84.90".
+    // Coerce once on load so price is a number everywhere downstream.
+    this.items.forEach(i => {
+      if (typeof i.price !== 'number') {
+        i.price = parseFloat(String(i.price).replace(/[^0-9.]/g, '')) || 0;
+      }
+    });
   },
 
   save() {
     localStorage.setItem('uke_cart', JSON.stringify(this.items));
   },
 
-  add(name, price, img) {
-    const existing = this.items.find(i => i.name === name);
-    if (existing) {
-      existing.qty++;
+  // products.json is authoritative: re-resolve every id-bearing line against the
+  // catalogue, so editing a price in JSON also re-prices a cart saved earlier.
+  repriceFromCatalogue() {
+    if (!window.Catalogue?.loaded) return;
+    let changed = false;
+    this.items.forEach(i => {
+      const p = i.id && Catalogue.get(i.id);
+      if (!p) return;
+      if (i.price !== p.price || i.name !== p.name || i.img !== p.image) {
+        i.price = p.price;
+        i.name = p.name;
+        i.img = p.image;
+        changed = true;
+      }
+    });
+    if (changed) this.save();
+    this.updateBadge();
+    this.renderDrawer();
+  },
+
+  key(item) {
+    return item.id || item.name;
+  },
+
+  find(key) {
+    return this.items.find(i => this.key(i) === key);
+  },
+
+  // Accepts a catalogue product ({id, name, price:Number, image}). The legacy
+  // (name, price, img) signature is still honoured for the pages that have not
+  // been migrated to the renderer yet.
+  add(productOrName, price, img) {
+    let line;
+    if (productOrName && typeof productOrName === 'object') {
+      const p = productOrName;
+      line = { id: p.id, name: p.name, price: Number(p.price), img: p.image, qty: 1 };
     } else {
-      this.items.push({ name, price, img, qty: 1 });
+      line = {
+        name: productOrName,
+        price: parseFloat(String(price).replace(/[^0-9.]/g, '')) || 0,
+        img,
+        qty: 1,
+      };
     }
+
+    const existing = this.find(this.key(line));
+    if (existing) existing.qty++;
+    else this.items.push(line);
+
     this.save();
     this.updateBadge();
     this.renderDrawer();
     this.openDrawer();
   },
 
-  remove(name) {
-    this.items = this.items.filter(i => i.name !== name);
+  remove(key) {
+    this.items = this.items.filter(i => this.key(i) !== key);
     this.save();
     this.updateBadge();
     this.renderDrawer();
   },
 
-  setQty(name, qty) {
-    const item = this.items.find(i => i.name === name);
+  setQty(key, qty) {
+    const item = this.find(key);
     if (!item) return;
-    if (qty <= 0) { this.remove(name); return; }
+    if (qty <= 0) { this.remove(key); return; }
     item.qty = qty;
     this.save();
     this.updateBadge();
     this.renderDrawer();
   },
 
+  // Prices are numbers held in the cart line, sourced from products.json.
+  // Nothing here parses a price out of the DOM.
   total() {
-    return this.items.reduce((sum, i) => {
-      return sum + (parseFloat(String(i.price).replace(/[^0-9.]/g, '')) * i.qty);
-    }, 0);
+    return this.items.reduce((sum, i) => sum + (Number(i.price) || 0) * i.qty, 0);
   },
 
   count() {
@@ -101,43 +157,46 @@ const Cart = {
       return;
     }
 
+    const esc = s => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;');
+
     body.innerHTML = this.items.map(item => {
-      const safeName = item.name.replace(/'/g, '&#39;').replace(/"/g, '&quot;');
+      const key = esc(this.key(item));
+      const safeName = esc(item.name);
       return `
         <div class="cart-item">
           <div class="cart-item-img">
-            <img src="${item.img}" alt="${safeName}" />
+            <img src="${esc(item.img)}" alt="${safeName}" />
           </div>
           <div class="cart-item-info">
-            <p class="cart-item-name">${item.name}</p>
-            <p class="cart-item-price">${item.price}</p>
+            <p class="cart-item-name">${safeName}</p>
+            <p class="cart-item-price">${formatPrice(item.price)}</p>
             <div class="cart-item-qty">
-              <button class="qty-btn" data-action="dec" data-name="${safeName}">−</button>
+              <button class="qty-btn" data-action="dec" data-key="${key}">−</button>
               <span class="qty-val">${item.qty}</span>
-              <button class="qty-btn" data-action="inc" data-name="${safeName}">+</button>
+              <button class="qty-btn" data-action="inc" data-key="${key}">+</button>
             </div>
           </div>
-          <button class="cart-item-remove" data-action="remove" data-name="${safeName}" aria-label="Remove ${safeName}">✕</button>
+          <button class="cart-item-remove" data-action="remove" data-key="${key}" aria-label="Remove ${safeName}">✕</button>
         </div>`;
     }).join('');
 
     // Wire up qty and remove buttons
     body.querySelectorAll('[data-action]').forEach(btn => {
       btn.addEventListener('click', () => {
-        const rawName = btn.getAttribute('data-name');
-        const item = this.items.find(i => i.name.replace(/'/g, '&#39;').replace(/"/g, '&quot;') === rawName || i.name === rawName);
+        const key = btn.getAttribute('data-key');
+        const item = this.find(key);
         if (!item) return;
         const action = btn.getAttribute('data-action');
-        if (action === 'remove') this.remove(item.name);
-        else if (action === 'inc') this.setQty(item.name, item.qty + 1);
-        else if (action === 'dec') this.setQty(item.name, item.qty - 1);
+        if (action === 'remove') this.remove(key);
+        else if (action === 'inc') this.setQty(key, item.qty + 1);
+        else if (action === 'dec') this.setQty(key, item.qty - 1);
       });
     });
 
     if (footer) {
       footer.style.display = 'flex';
       const totalEl = footer.querySelector('.cart-subtotal-amount');
-      if (totalEl) totalEl.textContent = `R${this.total().toFixed(2)}`;
+      if (totalEl) totalEl.textContent = formatPrice(this.total());
     }
   },
 
@@ -157,6 +216,10 @@ const Cart = {
     document.body.style.overflow = '';
   }
 };
+
+// `const` at the top level of a classic script is NOT a property of window, so
+// expose it explicitly — render-products.js re-prices the cart via window.Cart.
+window.Cart = Cart;
 
 // ── Inject cart drawer HTML ────────────────────────────────────────
 function injectCartDrawer() {
@@ -206,9 +269,54 @@ function injectCartDrawer() {
   drawer.querySelector('.cart-wholesale-upsell a')?.addEventListener('click', () => Cart.closeDrawer());
 }
 
+// ── Promo / announcement strip ─────────────────────────────────────
+// The ticker's promo message lives in data/settings.json so the client can edit
+// it once in /admin and have it update on every page. Slots are marked with
+// data-promo-message / data-promo-code / data-promo-link; setting enabled:false
+// removes the promo items from the ticker entirely.
+async function renderPromo() {
+  const items = document.querySelectorAll('[data-promo]');
+  if (!items.length) return;
+
+  let promo;
+  try {
+    const res = await fetch('data/settings.json');
+    if (!res.ok) throw new Error(`settings.json: ${res.status}`);
+    promo = (await res.json()).promo || {};
+  } catch (err) {
+    console.error('[promo] could not load settings:', err);
+    return; // leave the markup's fallback copy in place
+  }
+
+  items.forEach(item => {
+    if (promo.enabled === false) { item.remove(); return; }
+
+    const msg = item.querySelector('[data-promo-message]');
+    if (msg) msg.textContent = promo.message || '';
+
+    const code = item.querySelector('[data-promo-code]');
+    if (code) {
+      code.textContent = promo.code || '';
+      // "· Code: AST10" only makes sense when there is a code
+      const label = item.querySelector('[data-promo-code-label]');
+      if (label) label.hidden = !promo.code;
+    }
+
+    const link = item.querySelector('[data-promo-link]');
+    if (link) {
+      if (promo.link) link.setAttribute('href', promo.link);
+      else link.removeAttribute('href');
+    }
+  });
+}
+
 // ── Reveal on scroll ───────────────────────────────────────────────
+// `.reveal` starts at opacity 0 and only becomes visible once observed, so cards
+// rendered from products.json after DOMContentLoaded must be observed too —
+// otherwise they stay permanently invisible. Re-run on products:rendered.
 function initReveal() {
-  const els = document.querySelectorAll('.reveal');
+  const els = document.querySelectorAll('.reveal:not(.visible)');
+  if (!els.length) return;
   const obs = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
@@ -216,6 +324,8 @@ function initReveal() {
   }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
   els.forEach(el => obs.observe(el));
 }
+
+document.addEventListener('products:rendered', initReveal);
 
 // ── Sticky cart bar ────────────────────────────────────────────────
 function initStickyCart() {
@@ -238,24 +348,31 @@ function initStickyCart() {
 
 // ── Add to cart buttons ────────────────────────────────────────────
 function initCartButtons() {
-  document.querySelectorAll('.btn-add-cart').forEach(btn => {
-    btn.addEventListener('click', function(e) {
-      e.preventDefault();
-      const card = this.closest('.product-card');
-      const name = card?.querySelector('.product-name')?.textContent?.trim() || 'Product';
-      const price = card?.querySelector('.product-price')?.textContent?.trim() || 'R0.00';
-      const img = card?.querySelector('img')?.src || '';
+  // Delegated, so cards rendered later from products.json are covered too.
+  document.addEventListener('click', e => {
+    const btn = e.target.closest('.btn-add-cart');
+    if (!btn) return;
+    e.preventDefault();
 
-      Cart.add(name, price, img);
+    // Every card on every page is rendered from products.json and carries an id.
+    // Price/name/image are resolved from the catalogue — the card's price text is
+    // display output and is never read back.
+    const card = btn.closest('.product-card');
+    const id = card?.getAttribute('data-product-id');
+    const product = id && window.Catalogue?.get(id);
+    if (!product) {
+      console.error(`[cart] card has no resolvable product id (${id}) — not adding`);
+      return;
+    }
+    Cart.add(product);
 
-      const orig = this.textContent;
-      this.textContent = 'Added ✓';
-      this.classList.add('added');
-      setTimeout(() => {
-        this.textContent = orig;
-        this.classList.remove('added');
-      }, 1600);
-    });
+    const orig = btn.textContent;
+    btn.textContent = 'Added ✓';
+    btn.classList.add('added');
+    setTimeout(() => {
+      btn.textContent = orig;
+      btn.classList.remove('added');
+    }, 1600);
   });
 
   // Hero card add button — open cart drawer
@@ -282,9 +399,14 @@ function initSort() {
     document.querySelectorAll('.products-grid, .products-grid-3, .products-grid-4').forEach(grid => {
       const cards = Array.from(grid.querySelectorAll('.product-card'));
       if (!cards.length) return;
+      // Price comes from the catalogue by id — never from the markup.
+      const priceOf = card => {
+        const product = window.Catalogue?.get(card.getAttribute('data-product-id'));
+        return product ? product.price : 0;
+      };
       cards.sort((a, b) => {
-        const pA = parseFloat(a.querySelector('.product-price')?.textContent?.replace(/[^0-9.]/g, '') || 0);
-        const pB = parseFloat(b.querySelector('.product-price')?.textContent?.replace(/[^0-9.]/g, '') || 0);
+        const pA = priceOf(a);
+        const pB = priceOf(b);
         const nA = a.querySelector('.product-name')?.textContent || '';
         const nB = b.querySelector('.product-name')?.textContent || '';
         if (this.value === 'price-asc') return pA - pB;
@@ -362,6 +484,7 @@ document.addEventListener('DOMContentLoaded', () => {
   injectCartDrawer();
   Cart.updateBadge();
   Cart.renderDrawer();
+  renderPromo();
   initReveal();
   initStickyCart();
   initCartButtons();

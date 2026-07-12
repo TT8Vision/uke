@@ -1,0 +1,26 @@
+[
+  {
+    "id": "uke-0146",
+    "tag": "Best seller",
+    "image": "images/products/astonish-multi-surface.png",
+    "cardClass": "reveal"
+  },
+  {
+    "id": "uke-0138",
+    "image": "images/products/astonish-bathroom.png",
+    "cardClass": "reveal reveal-delay-1"
+  },
+  {
+    "id": "uke-0142",
+    "tag": "Popular",
+    "image": "images/products/astonish-kitchen.png",
+    "cardClass": "reveal reveal-delay-2"
+  },
+  {
+    "id": "uke-0136",
+    "tag": "Specialty",
+    "gold": true,
+    "image": "images/products/astonish-air-fryer.png",
+    "cardClass": "reveal reveal-delay-3"
+  }
+]

@@ -1,0 +1,131 @@
+# Decap CMS — TT8 Live Editor (Task 6: LOCAL verification only)
+#
+# local_backend: true routes all reads/writes through the decap-server proxy on
+# localhost, so /admin runs with NO login and NO GitHub. Task 7 swaps the backend
+# for a real one and adds auth. Do not point this at a repo yet.
+backend:
+  name: git-gateway
+  branch: main
+
+local_backend: true
+
+media_folder: "images/products"
+public_folder: "images/products"
+
+# The client edits text and images only — never code, deploy config, or secrets.
+collections:
+  - name: catalogue
+    label: "Catalogue"
+    files:
+      - name: products
+        label: "Products"
+        file: "data/products.json"
+        format: json
+        description: >
+          The single source of truth for every product on the site. Prices edited
+          here are what the cart charges — there is no second copy anywhere.
+        # The preview pane would re-render all 868 products on every keystroke.
+        editor:
+          preview: false
+        fields:
+          - name: products
+            label: "Products"
+            label_singular: "Product"
+            widget: list
+            # 868 products is far past what Decap's list widget will mount at once.
+            # collapsed + minimize_collapsed keeps rows as summary lines until the
+            # client opens one, which is what makes this collection usable at all.
+            collapsed: true
+            minimize_collapsed: true
+            # Shown as the collapsed row label so 868 products stay navigable.
+            summary: "{{fields.id}} · {{fields.brand}} {{fields.name}} {{fields.volume}}"
+            fields:
+              # Auto-generated on save. Never typed by the client — the featured
+              # lists on shop/index reference products by this id.
+              - { name: id, label: "ID (auto-generated — not editable)", widget: readonly, required: false }
+
+              - { name: brand, label: "Brand", widget: string }
+              - { name: name, label: "Product name", widget: string }
+
+              # Some products legitimately have no volume (e.g. the Kent range).
+              - { name: volume, label: "Volume / size (optional)", widget: string, required: false }
+
+              - { name: price, label: "Price (R)", widget: number, value_type: float, min: 0, step: 0.01 }
+
+              # Blank means NO sale. Never defaulted to 0.
+              - name: oldPrice
+                label: "Was-price (R) — leave blank if not on sale"
+                widget: number
+                value_type: float
+                min: 0
+                step: 0.01
+                required: false
+
+              # Manufacturer code (Kent range only). Read-only where it exists.
+              - { name: sku, label: "SKU (read-only)", widget: readonly, required: false }
+
+              - { name: image, label: "Image (URL or images/products/…)", widget: string }
+
+              - name: categories
+                label: "Categories"
+                widget: select
+                multiple: true
+                min: 1
+                options:
+                  - { label: "Household Cleaning", value: "cleaning" }
+                  - { label: "Groceries", value: "groceries" }
+                  - { label: "Confectionery", value: "confectionery" }
+                  - { label: "Hot Drinks", value: "hotdrinks" }
+                  - { label: "Cold Drinks", value: "colddrinks" }
+                  - { label: "Beers & Ales", value: "beers" }
+                  - { label: "Cereals & Breakfast", value: "cereals" }
+                  - { label: "Personal Care & Beauty", value: "personalcare" }
+                  - { label: "Kent Hairbrushes", value: "kent" }
+
+              # Fixed, closed list. "None" is normalised to null on save so no
+              # badge renders. Includes the descriptive tags already in use so
+              # editing one of those products can never blank its badge.
+              - name: tag
+                label: "Badge"
+                widget: select
+                required: false
+                default: "None"
+                options:
+                  - "None"
+                  - "Best seller"
+                  - "Popular"
+                  - "Specialty"
+                  - "New in"
+                  - "Handmade"
+                  - "Premium"
+                  - "Irish stout"
+
+              - { name: inStock, label: "In stock", widget: boolean, default: true }
+              - { name: new, label: "Show in “New in store”", widget: boolean, default: false }
+
+              # Set automatically for new products; editable for backdating.
+              - name: dateAdded
+                label: "Date added"
+                widget: datetime
+                date_format: "YYYY-MM-DD"
+                time_format: false
+                format: "YYYY-MM-DD"
+                required: false
+
+  - name: settings
+    label: "Settings"
+    files:
+      - name: promo
+        label: "Promo banner"
+        file: "data/settings.json"
+        format: json
+        description: "The scrolling announcement strip at the top of every page."
+        fields:
+          - name: promo
+            label: "Promo banner"
+            widget: object
+            fields:
+              - { name: enabled, label: "Show the promo message", widget: boolean, default: true }
+              - { name: message, label: "Message", widget: string }
+              - { name: code, label: "Discount code (optional)", widget: string, required: false }
+              - { name: link, label: "Link (optional)", widget: string, required: false }
