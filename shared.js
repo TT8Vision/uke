@@ -208,6 +208,8 @@ function injectCartDrawer() {
 
 // ── Reveal on scroll ───────────────────────────────────────────────
 function initReveal() {
+  // gsap-enhance.js takes ownership of reveals when GSAP is present.
+  if (window.__gsapReveals) return;
   const els = document.querySelectorAll('.reveal');
   const obs = new IntersectionObserver((entries) => {
     entries.forEach(e => {

@@ -476,6 +476,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .reveal-delay-2 { transition-delay:0.16s; }
 .reveal-delay-3 { transition-delay:0.24s; }
 .reveal-delay-4 { transition-delay:0.32s; }
+/* When GSAP drives reveals, drop the CSS transition so per-frame writes aren't double-eased. */
+html.gsap-active .reveal { transition:none; }
 
 /* ── Sticky cart bar ── */
 .sticky-cart-bar {
