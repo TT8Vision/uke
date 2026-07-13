@@ -18,8 +18,9 @@
                                 so ids are generated here and locked in the UI
        2. type a SKU          — manufacturer codes (Kent) are read-only
 
-     Everything else is a plain Decap field. Prices written here land in
-     data/products.json, which is the same file the site and cart already read.
+     Everything else is a plain Decap field. Products is a folder collection:
+     a save writes ONE file, data/products/<id>.json. The site reads
+     data/products.json, which build:catalogue regenerates from that folder.
      ────────────────────────────────────────────────────────────────── */
 
   (function () {
@@ -63,59 +64,78 @@
     CMS.registerWidget('readonly', ReadonlyControl, ReadonlyPreview);
 
     // ── Normalise + auto-generate on save ─────────────────────────────
-    // Decap hands us the whole entry as an Immutable Map. For the products
-    // file we walk the list and fix up anything the form cannot express.
+    // Products is a FOLDER collection, so Decap hands us ONE product per save as
+    // an Immutable Map — there is no list to scan for the highest id. Existing ids
+    // come from data/products.json, the artifact built from data/products/*.json.
     const ID_RE = /^uke-(\d+)$/;
     const pad = n => 'uke-' + String(n).padStart(4, '0');
     const today = () => new Date().toISOString().slice(0, 10);
 
+    // Ids handed out during THIS session. products.json only catches up when
+    // build:catalogue runs (Netlify, on push), so without this a second product
+    // created before that rebuild would be handed the same id as the first.
+    let issuedMax = 0;
+
+    // Highest id in the catalogue, so a new product always lands above every
+    // existing one and can never collide with an id already in use. Re-read on
+    // every save rather than cached at load, so a rebuild mid-session is picked up.
+    async function maxExistingId() {
+      let max = 0;
+      try {
+        const res = await fetch('../data/products.json', { cache: 'no-store' });
+        const data = await res.json();
+        for (const p of (data.products || [])) {
+          const m = ID_RE.exec(String(p.id || ''));
+          if (m) max = Math.max(max, parseInt(m[1], 10));
+        }
+      } catch (err) {
+        // Refuse to guess. Guessing low would silently overwrite a real product's
+        // file, since the id is the filename.
+        throw new Error('Cannot read data/products.json to allocate a product id: ' + err.message);
+      }
+      if (!max) throw new Error('data/products.json yielded no uke-#### ids — refusing to allocate');
+      return max;
+    }
+
     CMS.registerEventListener({
       name: 'preSave',
-      handler: function ({ entry }) {
+      handler: async function ({ entry }) {
         const data = entry.get('data');
-        const list = data.get('products');
-        if (!list) return data; // the settings entry — nothing to do
 
-        // Highest existing id wins, so a new product always lands above the
-        // catalogue and can never collide with an id already in use.
-        let max = 0;
-        list.forEach(p => {
-          const m = ID_RE.exec(String(p.get('id') || ''));
-          if (m) max = Math.max(max, parseInt(m[1], 10));
+        // The settings entry has no product fields — leave it alone.
+        if (!data.has('price') && !data.has('brand')) return data;
+
+        let q = data;
+
+        // 1. id: generated for new products, never touched on existing ones.
+        //    This runs before Decap resolves the `slug: {{fields.id}}` template,
+        //    so the generated id is also the filename.
+        if (!q.get('id')) {
+          const next = Math.max(await maxExistingId(), issuedMax) + 1;
+          issuedMax = next;
+          q = q.set('id', pad(next));
+        }
+
+        // 2. dateAdded: stamped on creation, so the "New in store" strip can order
+        //    by it without the client having to think about it
+        if (!q.get('dateAdded')) q = q.set('dateAdded', today());
+
+        // 3. "None" is a UI affordance, not data — a badge is null or a string
+        const tag = q.get('tag');
+        if (tag === 'None' || tag === '' || tag === undefined) q = q.set('tag', null);
+
+        // 4. blank optional fields are null, never 0 and never ""
+        //    (an oldPrice of 0 would render a bogus "R0.00" strikethrough)
+        ['oldPrice', 'sku', 'volume'].forEach(k => {
+          const v = q.get(k);
+          if (v === '' || v === undefined) q = q.set(k, null);
         });
 
-        const next = list.map(p => {
-          let q = p;
+        // 5. flags always present
+        if (q.get('inStock') === undefined) q = q.set('inStock', true);
+        if (q.get('new') === undefined) q = q.set('new', false);
 
-          // 1. id: generated for new rows, never for existing ones
-          if (!q.get('id')) {
-            max += 1;
-            q = q.set('id', pad(max));
-          }
-
-          // 2. dateAdded: stamped on creation, so the "New in store" strip can
-          //    order by it without the client having to think about it
-          if (!q.get('dateAdded')) q = q.set('dateAdded', today());
-
-          // 3. "None" is a UI affordance, not data — a badge is null or a string
-          const tag = q.get('tag');
-          if (tag === 'None' || tag === '' || tag === undefined) q = q.set('tag', null);
-
-          // 4. blank optional fields are null, never 0 and never ""
-          //    (an oldPrice of 0 would render a bogus "R0.00" strikethrough)
-          ['oldPrice', 'sku', 'volume'].forEach(k => {
-            const v = q.get(k);
-            if (v === '' || v === undefined) q = q.set(k, null);
-          });
-
-          // 5. flags always present
-          if (q.get('inStock') === undefined) q = q.set('inStock', true);
-          if (q.get('new') === undefined) q = q.set('new', false);
-
-          return q;
-        });
-
-        return data.set('products', next);
+        return q;
       },
     });
 

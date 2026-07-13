@@ -14,104 +14,106 @@ public_folder: "images/products"
 
 # The client edits text and images only — never code, deploy config, or secrets.
 collections:
-  - name: catalogue
-    label: "Catalogue"
-    files:
-      - name: products
-        label: "Products"
-        file: "data/products.json"
-        format: json
-        description: >
-          The single source of truth for every product on the site. Prices edited
-          here are what the cart charges — there is no second copy anywhere.
-        # The preview pane would re-render all 868 products on every keystroke.
-        editor:
-          preview: false
-        fields:
-          - name: products
-            label: "Products"
-            label_singular: "Product"
-            widget: list
-            # 868 products is far past what Decap's list widget will mount at once.
-            # collapsed + minimize_collapsed keeps rows as summary lines until the
-            # client opens one, which is what makes this collection usable at all.
-            collapsed: true
-            minimize_collapsed: true
-            # Shown as the collapsed row label so 868 products stay navigable.
-            summary: "{{fields.id}} · {{fields.brand}} {{fields.name}} {{fields.volume}}"
-            fields:
-              # Auto-generated on save. Never typed by the client — the featured
-              # lists on shop/index reference products by this id.
-              - { name: id, label: "ID (auto-generated — not editable)", widget: readonly, required: false }
+  # ── Products ──────────────────────────────────────────────────────────────
+  # A FOLDER collection: one JSON file per product under data/products/, which is
+  # the source of truth. Decap loads entries a page at a time and opens exactly one
+  # at a time, so 868 products stay responsive — the previous single-file `list`
+  # widget re-rendered all 868 rows on every keystroke and froze for ~90s.
+  #
+  # data/products.json is NOT edited here. It is generated from this folder by
+  # `npm run build:catalogue` (Netlify runs it on every push) and the site reads it.
+  - name: products
+    label: "Products"
+    label_singular: "Product"
+    folder: "data/products"
+    extension: json
+    format: json
+    create: true
+    # The filename IS the id — build-catalogue.mjs treats it as authoritative.
+    # id is generated in the preSave hook (admin/index.html), so it is already set
+    # by the time this slug is resolved. The client never types it.
+    slug: "{{fields.id}}"
+    identifier_field: id
+    summary: "{{fields.id}} · {{fields.brand}} {{fields.name}} {{fields.volume}}"
+    sortable_fields: [id, brand, price]
+    # No preview template exists for a product card, and the pane would only add
+    # render cost to every keystroke.
+    editor:
+      preview: false
+    fields:
+      # Auto-generated on save. Never typed by the client — the featured lists on
+      # shop/index reference products by this id, and it is also the filename.
+      - { name: id, label: "ID (auto-generated — not editable)", widget: readonly, required: false }
 
-              - { name: brand, label: "Brand", widget: string }
-              - { name: name, label: "Product name", widget: string }
+      - { name: brand, label: "Brand", widget: string }
+      - { name: name, label: "Product name", widget: string }
 
-              # Some products legitimately have no volume (e.g. the Kent range).
-              - { name: volume, label: "Volume / size (optional)", widget: string, required: false }
+      # Some products legitimately have no volume (e.g. the Kent range).
+      - { name: volume, label: "Volume / size (optional)", widget: string, required: false }
 
-              - { name: price, label: "Price (R)", widget: number, value_type: float, min: 0, step: 0.01 }
+      - { name: price, label: "Price (R)", widget: number, value_type: float, min: 0, step: 0.01 }
 
-              # Blank means NO sale. Never defaulted to 0.
-              - name: oldPrice
-                label: "Was-price (R) — leave blank if not on sale"
-                widget: number
-                value_type: float
-                min: 0
-                step: 0.01
-                required: false
+      # Blank means NO sale. Never defaulted to 0.
+      - name: oldPrice
+        label: "Was-price (R) — leave blank if not on sale"
+        widget: number
+        value_type: float
+        min: 0
+        step: 0.01
+        required: false
 
-              # Manufacturer code (Kent range only). Read-only where it exists.
-              - { name: sku, label: "SKU (read-only)", widget: readonly, required: false }
+      # Manufacturer code (Kent range only). Read-only where it exists.
+      - { name: sku, label: "SKU (read-only)", widget: readonly, required: false }
 
-              - { name: image, label: "Image (URL or images/products/…)", widget: string }
+      - { name: image, label: "Image (URL or images/products/…)", widget: string }
 
-              - name: categories
-                label: "Categories"
-                widget: select
-                multiple: true
-                min: 1
-                options:
-                  - { label: "Household Cleaning", value: "cleaning" }
-                  - { label: "Groceries", value: "groceries" }
-                  - { label: "Confectionery", value: "confectionery" }
-                  - { label: "Hot Drinks", value: "hotdrinks" }
-                  - { label: "Cold Drinks", value: "colddrinks" }
-                  - { label: "Beers & Ales", value: "beers" }
-                  - { label: "Cereals & Breakfast", value: "cereals" }
-                  - { label: "Personal Care & Beauty", value: "personalcare" }
-                  - { label: "Kent Hairbrushes", value: "kent" }
+      - name: categories
+        label: "Categories"
+        widget: select
+        multiple: true
+        min: 1
+        options:
+          - { label: "Household Cleaning", value: "cleaning" }
+          - { label: "Groceries", value: "groceries" }
+          - { label: "Confectionery", value: "confectionery" }
+          - { label: "Hot Drinks", value: "hotdrinks" }
+          - { label: "Cold Drinks", value: "colddrinks" }
+          - { label: "Beers & Ales", value: "beers" }
+          - { label: "Cereals & Breakfast", value: "cereals" }
+          - { label: "Personal Care & Beauty", value: "personalcare" }
+          - { label: "Kent Hairbrushes", value: "kent" }
 
-              # Fixed, closed list. "None" is normalised to null on save so no
-              # badge renders. Includes the descriptive tags already in use so
-              # editing one of those products can never blank its badge.
-              - name: tag
-                label: "Badge"
-                widget: select
-                required: false
-                default: "None"
-                options:
-                  - "None"
-                  - "Best seller"
-                  - "Popular"
-                  - "Specialty"
-                  - "New in"
-                  - "Handmade"
-                  - "Premium"
-                  - "Irish stout"
+      # Fixed, closed list. "None" is normalised to null on save so no badge
+      # renders. Includes the descriptive tags already in use so editing one of
+      # those products can never blank its badge.
+      - name: tag
+        label: "Badge"
+        widget: select
+        required: false
+        default: "None"
+        options:
+          - "None"
+          - "Best seller"
+          - "Popular"
+          - "Specialty"
+          - "New in"
+          - "Handmade"
+          - "Premium"
+          - "Irish stout"
 
-              - { name: inStock, label: "In stock", widget: boolean, default: true }
-              - { name: new, label: "Show in “New in store”", widget: boolean, default: false }
+      - { name: inStock, label: "In stock", widget: boolean, default: true }
+      - { name: new, label: "Show in “New in store”", widget: boolean, default: false }
 
-              # Set automatically for new products; editable for backdating.
-              - name: dateAdded
-                label: "Date added"
-                widget: datetime
-                date_format: "YYYY-MM-DD"
-                time_format: false
-                format: "YYYY-MM-DD"
-                required: false
+      # Stamped automatically on creation; editable for backdating.
+      - name: dateAdded
+        label: "Date added"
+        widget: datetime
+        date_format: "YYYY-MM-DD"
+        time_format: false
+        format: "YYYY-MM-DD"
+        required: false
 
+  # ── Settings ──────────────────────────────────────────────────────────────
   - name: settings
     label: "Settings"
     files:

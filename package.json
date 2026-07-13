@@ -6,7 +6,8 @@
     "dev": "npx serve . --listen 3000 --no-clipboard",
     "start": "npx serve . --listen 3000",
     "cms": "decap-server",
-    "build:catalogue": "node scripts/build-catalogue.mjs"
+    "build:catalogue": "node scripts/build-catalogue.mjs",
+    "normalise:products": "node scripts/normalise-products.mjs"
   },
   "devDependencies": {
     "decap-server": "^3.1.1"
