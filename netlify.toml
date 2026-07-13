@@ -1,0 +1,23 @@
+# Netlify build for the UK Emporium static site.
+#
+# The Decap CMS folder collection writes one file per product into data/products/.
+# The site, renderer and cart read a single data/products.json, so every build
+# stitches the per-product files back into it. A product saved in the CMS is
+# therefore live as soon as the resulting commit is built.
+#
+# NOT DEPLOYED YET — this file only declares the build. No site is linked, no auth
+# is configured. See CLAUDE.md.
+
+[build]
+  # Site is hand-written HTML at the repo root; there is nothing to bundle.
+  publish = "."
+  command = "npm run build:catalogue"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# The CMS is a private editing surface, not site content — keep it out of search.
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Robots-Tag = "noindex"

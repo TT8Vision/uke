@@ -38,6 +38,9 @@ auto-deployed to Hostinger. Clients never touch code, deploy config, secrets, or
   markers at customisation points.
 - Keep it Prettier / ESLint clean; no build-pipeline conflicts.
 - One concern per commit, with a clear message.
+- uke catalogue: `data/products/` (one JSON file per product) is the source of truth — that is
+  what the CMS edits. `data/products.json` is **generated** by `npm run build:catalogue` and
+  must never be hand-edited; a manual change there is silently overwritten by the next build.
 - Update this file whenever a rule or convention changes.
 
 ## Env vars

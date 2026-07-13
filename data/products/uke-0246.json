@@ -1,0 +1,17 @@
+{
+  "id": "uke-0246",
+  "brand": "Ribena",
+  "name": "Ribena Strawberry Carton",
+  "volume": "250ml",
+  "price": 12.5,
+  "oldPrice": null,
+  "sku": null,
+  "image": "https://i0.wp.com/www.uke.co.za/wp-content/uploads/2021/04/ribena-straw-carton.pptx.jpg?resize=600%2C600&ssl=1",
+  "categories": [
+    "colddrinks"
+  ],
+  "tag": null,
+  "inStock": true,
+  "new": false,
+  "dateAdded": "2026-07-11"
+}

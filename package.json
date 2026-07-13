@@ -4,6 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "npx serve . --listen 3000 --no-clipboard",
-    "start": "npx serve . --listen 3000"
+    "start": "npx serve . --listen 3000",
+    "cms": "decap-server",
+    "build:catalogue": "node scripts/build-catalogue.mjs"
+  },
+  "devDependencies": {
+    "decap-server": "^3.1.1"
   }
 }

@@ -26,8 +26,10 @@ const Catalogue = {
     const res = await fetch('data/products.json');
     if (!res.ok) throw new Error(`products.json: ${res.status} ${res.statusText}`);
     const data = await res.json();
-    // Decap's file collections require an object at the root, so the catalogue is
-    // stored as { products: [...] }. A bare array is still accepted.
+    // The catalogue is stored as { _comment, products: [...] } — products.json is a build
+    // artifact stitched from data/products/*.json, and _comment says so. Only `products`
+    // is read; any other root key (the note, anything added later) is ignored. A bare
+    // array is still accepted.
     this.products = Array.isArray(data) ? data : (data.products || []);
     this.byId = new Map(this.products.map(p => [p.id, p]));
     this.loaded = true;

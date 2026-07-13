@@ -1,0 +1,17 @@
+{
+  "id": "uke-0007",
+  "brand": "Birra Moretti",
+  "name": "Birra Moretti Lager",
+  "volume": "4×440ml",
+  "price": 219.9,
+  "oldPrice": null,
+  "sku": null,
+  "image": "https://i0.wp.com/www.uke.co.za/wp-content/uploads/2024/04/birra.jpg?resize=600%2C600&ssl=1",
+  "categories": [
+    "beers"
+  ],
+  "tag": null,
+  "inStock": true,
+  "new": false,
+  "dateAdded": "2026-07-11"
+}

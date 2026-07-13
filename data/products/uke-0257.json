@@ -1,0 +1,17 @@
+{
+  "id": "uke-0257",
+  "brand": "Vimto",
+  "name": "Vimto Real Fruit Squash Cordial",
+  "volume": "725ml",
+  "price": 66.9,
+  "oldPrice": null,
+  "sku": null,
+  "image": "images/products/vimto-cordial-725ml.png",
+  "categories": [
+    "colddrinks"
+  ],
+  "tag": null,
+  "inStock": true,
+  "new": false,
+  "dateAdded": "2026-07-11"
+}

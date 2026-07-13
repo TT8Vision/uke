@@ -1,0 +1,17 @@
+{
+  "id": "uke-0217",
+  "brand": "Coca-Cola",
+  "name": "Coke Lemon",
+  "volume": "330ml",
+  "price": 26.9,
+  "oldPrice": null,
+  "sku": null,
+  "image": "https://i0.wp.com/www.uke.co.za/wp-content/uploads/2024/10/lemon-coke.png?resize=600%2C600&ssl=1",
+  "categories": [
+    "colddrinks"
+  ],
+  "tag": null,
+  "inStock": true,
+  "new": false,
+  "dateAdded": "2026-07-11"
+}

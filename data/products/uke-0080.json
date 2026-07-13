@@ -1,0 +1,17 @@
+{
+  "id": "uke-0080",
+  "brand": "Nestle",
+  "name": "Nestle Shredded Wheat",
+  "volume": "16's",
+  "price": 139.9,
+  "oldPrice": null,
+  "sku": null,
+  "image": "https://i0.wp.com/www.uke.co.za/wp-content/uploads/2020/10/Nestle-Shredded-Wheat-16.jpg?resize=600%2C600&ssl=1",
+  "categories": [
+    "cereals"
+  ],
+  "tag": null,
+  "inStock": true,
+  "new": false,
+  "dateAdded": "2026-07-11"
+}
