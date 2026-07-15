@@ -39,6 +39,8 @@
     .tab-panel.active{display:block}
     @media(max-width:768px){.account-layout{grid-template-columns:1fr}.account-sidebar{position:static}}
   </style>
+  <!-- Netlify Identity widget: powers invite / login redirect to the CMS. -->
+  <script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
 <div class="ticker-bar"><div class="ticker-track">
@@ -144,6 +146,18 @@
       document.getElementById(this.dataset.tab + 'Panel')?.classList.add('active');
     });
   });
+</script>
+<!-- Netlify Identity: when an invite/recovery link lands here, open the CMS login. -->
+<script>
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on("init", function (user) {
+      if (!user) {
+        window.netlifyIdentity.on("login", function () {
+          document.location.href = "/admin/";
+        });
+      }
+    });
+  }
 </script>
 </body>
 </html>

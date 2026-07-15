@@ -38,6 +38,8 @@
     @media(max-width:900px){.about-grid{grid-template-columns:1fr}.about-panel{min-height:320px}.exclusive-grid{grid-template-columns:repeat(2,1fr)}.values-grid{grid-template-columns:1fr 1fr}}
     @media(max-width:560px){.exclusive-grid,.values-grid{grid-template-columns:1fr}}
   </style>
+  <!-- Netlify Identity widget: powers invite / login redirect to the CMS. -->
+  <script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
 <div class="ticker-bar"><div class="ticker-track">
@@ -213,5 +215,17 @@
   <div class="footer-bottom"><p class="footer-copy">Copyright © 2026 UK Emporium. Cape Town branch only.</p><div class="footer-legal"><a href="#">Terms</a><a href="#">Privacy</a><a href="contact.html">Contact</a></div></div>
 </div></footer>
 <script src="shared.js"></script>
+<!-- Netlify Identity: when an invite/recovery link lands here, open the CMS login. -->
+<script>
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on("init", function (user) {
+      if (!user) {
+        window.netlifyIdentity.on("login", function () {
+          document.location.href = "/admin/";
+        });
+      }
+    });
+  }
+</script>
 </body>
 </html>

@@ -38,6 +38,8 @@
     @media(max-width:900px){.shop-layout{grid-template-columns:1fr}.shop-sidebar{position:static}.products-grid-3,.products-grid-4{grid-template-columns:repeat(2,1fr)}}
     @media(max-width:480px){.products-grid-3,.products-grid-4{grid-template-columns:1fr}}
   </style>
+  <!-- Netlify Identity widget: powers invite / login redirect to the CMS. -->
+  <script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
 <div class="ticker-bar"><div class="ticker-track">
@@ -221,5 +223,17 @@
 <script src="js/render-products.js"></script>
 <script src="/editor/overlay.js"></script>
 <script>TT8Editor.configure({ mode: "demo", siteId: "uke", page: "shop.html" });</script>
+<!-- Netlify Identity: when an invite/recovery link lands here, open the CMS login. -->
+<script>
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on("init", function (user) {
+      if (!user) {
+        window.netlifyIdentity.on("login", function () {
+          document.location.href = "/admin/";
+        });
+      }
+    });
+  }
+</script>
 </body>
 </html>

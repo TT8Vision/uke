@@ -27,6 +27,8 @@
     .form-grid-1{display:grid;grid-template-columns:1fr;gap:1.1rem}
     @media(max-width:900px){.contact-layout{grid-template-columns:1fr}.form-grid-2{grid-template-columns:1fr}}
   </style>
+  <!-- Netlify Identity widget: powers invite / login redirect to the CMS. -->
+  <script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
 <div class="ticker-bar"><div class="ticker-track">
@@ -111,15 +113,17 @@
       <div class="contact-form-wrap reveal reveal-delay-2">
         <h2 style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--navy);margin-bottom:.4rem;">Send us a message</h2>
         <p style="font-size:.85rem;color:var(--mid-gray);margin-bottom:1.75rem;">Fill in the form and we'll get back to you as soon as possible.</p>
-        <form class="contact-form" novalidate>
+        <form class="contact-form" name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" novalidate>
+          <!-- Netlify Forms honeypot: hidden from humans, tempting to bots. -->
+          <p style="display:none;"><label>Don’t fill this out if you’re human: <input name="bot-field" /></label></p>
           <div style="display:flex;flex-direction:column;gap:1.1rem;">
             <div class="form-grid-2">
-              <div class="form-group"><label class="form-label" for="c-name">Full name <span style="color:var(--red-bright)">*</span></label><input type="text" id="c-name" class="form-input" placeholder="Your full name" required autocomplete="name" /></div>
-              <div class="form-group"><label class="form-label" for="c-phone">Phone number</label><input type="tel" id="c-phone" class="form-input" placeholder="021 000 0000" autocomplete="tel" /></div>
+              <div class="form-group"><label class="form-label" for="c-name">Full name <span style="color:var(--red-bright)">*</span></label><input type="text" id="c-name" name="name" class="form-input" placeholder="Your full name" required autocomplete="name" /></div>
+              <div class="form-group"><label class="form-label" for="c-phone">Phone number</label><input type="tel" id="c-phone" name="phone" class="form-input" placeholder="021 000 0000" autocomplete="tel" /></div>
             </div>
-            <div class="form-group"><label class="form-label" for="c-email">Email address <span style="color:var(--red-bright)">*</span></label><input type="email" id="c-email" class="form-input" placeholder="your@email.com" required autocomplete="email" /></div>
-            <div class="form-group"><label class="form-label" for="c-subject">Subject</label><select id="c-subject" class="form-select"><option value="">Select a topic</option><option>General enquiry</option><option>Order &amp; delivery</option><option>Wholesale &amp; trade</option><option>Product availability</option><option>Returns &amp; complaints</option></select></div>
-            <div class="form-group"><label class="form-label" for="c-msg">Message <span style="color:var(--red-bright)">*</span></label><textarea id="c-msg" class="form-textarea" placeholder="How can we help?" required></textarea></div>
+            <div class="form-group"><label class="form-label" for="c-email">Email address <span style="color:var(--red-bright)">*</span></label><input type="email" id="c-email" name="email" class="form-input" placeholder="your@email.com" required autocomplete="email" /></div>
+            <div class="form-group"><label class="form-label" for="c-subject">Subject</label><select id="c-subject" name="subject" class="form-select"><option value="">Select a topic</option><option>General enquiry</option><option>Order &amp; delivery</option><option>Wholesale &amp; trade</option><option>Product availability</option><option>Returns &amp; complaints</option></select></div>
+            <div class="form-group"><label class="form-label" for="c-msg">Message <span style="color:var(--red-bright)">*</span></label><textarea id="c-msg" name="message" class="form-textarea" placeholder="How can we help?" required></textarea></div>
             <button type="submit" class="btn-primary" style="width:100%;justify-content:center;">Send message →</button>
           </div>
         </form>
@@ -148,5 +152,17 @@
   <div class="footer-bottom"><p class="footer-copy">Copyright © 2026 UK Emporium. Cape Town branch only.</p><div class="footer-legal"><a href="#">Terms</a><a href="#">Privacy</a><a href="contact.html" class="active">Contact</a></div></div>
 </div></footer>
 <script src="shared.js"></script>
+<!-- Netlify Identity: when an invite/recovery link lands here, open the CMS login. -->
+<script>
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on("init", function (user) {
+      if (!user) {
+        window.netlifyIdentity.on("login", function () {
+          document.location.href = "/admin/";
+        });
+      }
+    });
+  }
+</script>
 </body>
 </html>

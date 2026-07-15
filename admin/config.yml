@@ -1,8 +1,12 @@
-# Decap CMS — TT8 Live Editor (Task 6: LOCAL verification only)
+# Decap CMS — TT8 Live Editor (production auth via Netlify Identity + Git Gateway)
 #
-# local_backend: true routes all reads/writes through the decap-server proxy on
-# localhost, so /admin runs with NO login and NO GitHub. Task 7 swaps the backend
-# for a real one and adds auth. Do not point this at a repo yet.
+# Production: git-gateway authenticates each editor through Netlify Identity and
+# commits to TT8Vision/uke on `main` as the signed-in user. Editors are invited in
+# Netlify → Identity; no GitHub account or PAT is exposed to the browser.
+#
+# Local dev: `local_backend: true` still routes reads/writes through the
+# decap-server proxy (`npx decap-server`) on localhost, so /admin runs with NO
+# login and NO network GitHub while developing. Netlify ignores this flag.
 backend:
   name: git-gateway
   branch: main

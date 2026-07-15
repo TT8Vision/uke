@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex" />
   <title>UK Emporium — Content admin</title>
+  <!-- Netlify Identity: Decap detects this widget and uses it to authenticate the
+       git-gateway backend (invite / login / logout). Without it, /admin shows no
+       login and cannot commit in production. -->
+  <script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
   <!-- Decap auto-mounts on load. Defer it so widgets and the preSave hook are
