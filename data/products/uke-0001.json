@@ -1,17 +1,17 @@
 {
-  "id": "uke-0001",
-  "brand": "Abbott",
-  "name": "Abbott Ale",
-  "volume": "500ml",
-  "price": 84.9,
+  "new": false,
   "oldPrice": null,
-  "sku": null,
+  "brand": "Abbott",
+  "price": 85.92,
+  "name": "Abbott Ale",
+  "inStock": true,
+  "dateAdded": "2026-07-11",
+  "volume": "500ml",
+  "tag": null,
+  "id": "uke-0001",
   "image": "https://i0.wp.com/www.uke.co.za/wp-content/uploads/2024/04/Abbott-Ale-500ml.jpg?resize=600%2C600&ssl=1",
   "categories": [
     "beers"
   ],
-  "tag": null,
-  "inStock": true,
-  "new": false,
-  "dateAdded": "2026-07-11"
+  "sku": null
 }
