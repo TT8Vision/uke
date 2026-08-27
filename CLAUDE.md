@@ -18,6 +18,20 @@ auto-deployed to Hostinger. Clients never touch code, deploy config, secrets, or
 - Registry: `sites.config.json` at repo root — one entry per client site.
 - Editor overlay: `public/editor/overlay.js` — ships on client sites, dormant until activated.
 
+## Live shop editing (Supabase) — current model
+The shop catalogue's live source of truth is the Supabase `UKE` project
+(`public.products`, ref `dyifpssjebmkvpdoiyas`). Public pages read it via
+supabase-js (`js/supabase-config.js`, publishable key, RLS public-read). Admins
+sign in with a magic link (`login.html`); `public.admins` + `public.is_admin()`
+gate all writes, enforced by RLS (only admins may insert/update/delete). Editing
+happens inline on the real pages via `js/admin-editor.js`. The service-role key
+never reaches the browser. `data/products/*.json` and `data/products.json` are
+retained as an offline backup but are no longer on the live read path.
+
+The previous Decap CMS + Netlify Identity + git-publish flow (`admin/`) is
+**deprecated** — it no longer feeds the live site and is kept only as a
+fallback/reference pending removal.
+
 ## Security invariants (do not weaken)
 1. The publish route verifies a real Supabase JWT and checks the caller's email against the
    site's `allowedEmails`. Never bypass either check except via the documented

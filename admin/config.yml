@@ -1,3 +1,7 @@
+# DEPRECATED (2026-08-27): the live shop is now edited via Supabase
+# (js/admin-editor.js). This Decap CMS no longer feeds the site. Kept for
+# reference only. See CLAUDE.md "Live shop editing (Supabase)".
+#
 # Decap CMS — TT8 Live Editor (production auth via Netlify Identity + Git Gateway)
 #
 # Production: git-gateway authenticates each editor through Netlify Identity and
