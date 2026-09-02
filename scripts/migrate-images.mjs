@@ -252,7 +252,19 @@ async function storageAuth() {
     headers: { apikey: PUBLISHABLE_KEY, 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password }),
   });
-  if (!res.ok) throw new Error(`sign-in failed: HTTP ${res.status} ${await res.text()}`);
+  if (!res.ok) {
+    const body = await res.text();
+    if (body.includes('invalid_credentials')) {
+      // Overwhelmingly the cause is a shell quoting slip rather than a wrong
+      // password, so say so before sending anyone to reset one.
+      throw new Error(
+        `sign-in rejected for ${email}. Check the password was passed literally — ` +
+          'placeholder angle brackets, or a $ or backtick unescaped by double quotes, ' +
+          'all change the string PowerShell sends.',
+      );
+    }
+    throw new Error(`sign-in failed: HTTP ${res.status} ${body}`);
+  }
   const { access_token: token } = await res.json();
   if (!token) throw new Error('sign-in returned no access token');
 
@@ -370,6 +382,16 @@ const stages = { download, upload, rewrite };
 const stage = process.argv[2];
 if (!stages[stage]) {
   console.error(`usage: node scripts/migrate-images.mjs <${Object.keys(stages).join('|')}>`);
-  process.exit(2);
+  process.exitCode = 2;
+} else {
+  // Report failures as a message, not a stack trace. Letting the error escape a
+  // top-level await tears the process down while fetch's sockets are still
+  // closing, which trips a libuv assertion on Windows and buries the actual
+  // cause under a crash dump.
+  try {
+    await stages[stage]();
+  } catch (err) {
+    console.error(`\n${stage} failed: ${err.message}`);
+    process.exitCode = 1;
+  }
 }
-await stages[stage]();
