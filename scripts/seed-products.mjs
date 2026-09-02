@@ -1,3 +1,5 @@
+// One-time seed (prefer scripts/build-seed-sql.mjs + the SQL editor, which needs
+// no RLS changes). Keep URL/KEY in step with js/supabase-config.js.
 // One-time seed: load data/products/*.json into Supabase public.products via the
 // REST API in batches. Field mapping: oldPrice->old_price, new->is_new,
 // inStock->in_stock, dateAdded->date_added. Uses the publishable key; run only
@@ -6,8 +8,8 @@ import { readdir, readFile } from 'node:fs/promises';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const URL = 'https://dyifpssjebmkvpdoiyas.supabase.co';
-const KEY = 'sb_publishable_hdC7VIEduIiPQ_Q81EZB0Q_mSYrIgtz';
+const URL = 'https://xwgpaalydysfebyolern.supabase.co';
+const KEY = 'sb_publishable_bO3j0H1obZi7Db8AAHUKfA_H-g_EXa9';
 const BATCH = 500;
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');

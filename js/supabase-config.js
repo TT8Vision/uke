@@ -2,8 +2,8 @@
    The publishable key is designed to ship in the browser; RLS enforces that
    only admins (public.is_admin()) can write. No service-role key here, ever. */
 (function () {
-  const URL = 'https://dyifpssjebmkvpdoiyas.supabase.co';
-  const KEY = 'sb_publishable_hdC7VIEduIiPQ_Q81EZB0Q_mSYrIgtz';
+  const URL = 'https://xwgpaalydysfebyolern.supabase.co';
+  const KEY = 'sb_publishable_bO3j0H1obZi7Db8AAHUKfA_H-g_EXa9';
   if (!window.supabase || !window.supabase.createClient) {
     console.error('[supabase-config] supabase-js not loaded before this script');
     return;

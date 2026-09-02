@@ -3,52 +3,325 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="robots" content="noindex" />
-  <title>Staff login · uke</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Staff login · UK Emporium</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <style>
-    .login-wrap{max-width:420px;margin:12vh auto;padding:2rem;font-family:Inter,system-ui,sans-serif}
-    .login-wrap h1{font-size:1.4rem;margin-bottom:.25rem}
-    .login-wrap p{color:#555;margin-bottom:1.5rem}
-    .login-wrap input{width:100%;padding:.75rem;border:1px solid #ccc;border-radius:8px;margin-bottom:1rem;font-size:1rem}
-    .login-wrap button{width:100%;padding:.75rem;border:0;border-radius:8px;background:#111;color:#fff;font-size:1rem;cursor:pointer}
-    .login-wrap button:disabled{opacity:.6;cursor:default}
-    .login-msg{margin-top:1rem;font-size:.95rem}
-    .login-msg.ok{color:#137a3c}.login-msg.err{color:#b3261e}
+    /* ── Auth page ── */
+    body.auth-body{min-height:100vh;display:flex;align-items:center;justify-content:center;
+      padding:2rem 1.25rem;background:
+        radial-gradient(1100px 600px at 15% -10%, rgba(201,152,42,.18), transparent 60%),
+        radial-gradient(900px 500px at 110% 110%, rgba(30,58,106,.55), transparent 55%),
+        linear-gradient(160deg,#0B1F3A 0%,#142B50 55%,#0B1F3A 100%);}
+    .auth-card{width:100%;max-width:440px;background:var(--cream);border-radius:var(--radius-lg);
+      box-shadow:var(--shadow-deep);overflow:hidden;position:relative}
+    .auth-head{padding:2.1rem 2.1rem 1.5rem;background:linear-gradient(150deg,var(--navy),var(--navy-light));
+      border-bottom:2px solid var(--gold);text-align:center}
+    .auth-logo{font-family:'Playfair Display',serif;font-size:1.55rem;font-weight:700;color:#fff;line-height:1}
+    .auth-logo em{font-style:italic;color:var(--gold-light)}
+    .auth-kicker{margin-top:.55rem;font-size:.68rem;font-weight:600;letter-spacing:.18em;
+      text-transform:uppercase;color:var(--gold-light)}
+    .auth-inner{padding:1.6rem 2.1rem 2.1rem}
+
+    .auth-tabs{display:flex;gap:.35rem;background:rgba(11,31,58,.06);padding:.3rem;
+      border-radius:var(--radius-md);margin-bottom:1.5rem}
+    .auth-tab{flex:1;padding:.6rem .5rem;border-radius:calc(var(--radius-md) - 3px);font-size:.83rem;
+      font-weight:600;color:var(--mid-gray);font-family:inherit;transition:var(--transition)}
+    .auth-tab[aria-selected="true"]{background:#fff;color:var(--navy);box-shadow:var(--shadow-card)}
+    .auth-tab:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+    .auth-title{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:600;
+      color:var(--navy);margin-bottom:.3rem}
+    .auth-sub{font-size:.86rem;color:var(--mid-gray);line-height:1.5;margin-bottom:1.35rem}
+
+    .field{margin-bottom:.95rem}
+    .field label{display:block;font-size:.72rem;font-weight:600;letter-spacing:.06em;
+      text-transform:uppercase;color:var(--navy);margin-bottom:.4rem}
+    .field input{width:100%;padding:.78rem .9rem;font-family:inherit;font-size:.95rem;color:var(--charcoal);
+      background:#fff;border:1.5px solid rgba(11,31,58,.18);border-radius:var(--radius-sm);
+      transition:var(--transition);outline:none}
+    .field input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,152,42,.16)}
+    .pw-wrap{position:relative}
+    .pw-wrap input{padding-right:4.2rem}
+    .pw-toggle{position:absolute;right:.55rem;top:50%;transform:translateY(-50%);font-size:.7rem;
+      font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mid-gray);
+      padding:.35rem .5rem;border-radius:var(--radius-sm);font-family:inherit}
+    .pw-toggle:hover{color:var(--navy);background:rgba(11,31,58,.06)}
+    .hint{font-size:.74rem;color:var(--mid-gray);margin-top:.4rem}
+
+    .auth-btn{width:100%;padding:.85rem 1rem;background:var(--navy);color:#fff;font-family:inherit;
+      font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+      border-radius:var(--radius-sm);transition:var(--transition);margin-top:.45rem}
+    .auth-btn:hover:not(:disabled){background:var(--gold);color:var(--navy);box-shadow:var(--shadow-gold)}
+    .auth-btn:disabled{opacity:.55;cursor:default}
+    .auth-btn.secondary{background:transparent;color:var(--navy);border:1.5px solid rgba(11,31,58,.22)}
+    .auth-btn.secondary:hover:not(:disabled){background:var(--navy);color:#fff;border-color:var(--navy)}
+
+    .auth-row{display:flex;justify-content:flex-end;align-items:center;margin-top:.15rem}
+    .link-btn{font-family:inherit;font-size:.78rem;font-weight:500;color:var(--mid-gray);
+      text-decoration:underline;text-underline-offset:3px;transition:var(--transition)}
+    .link-btn:hover{color:var(--navy)}
+
+    .divider{display:flex;align-items:center;gap:.8rem;margin:1.35rem 0 1.1rem;
+      font-size:.68rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--mid-gray)}
+    .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border-light)}
+
+    .msg{margin-top:1.05rem;padding:.75rem .9rem;border-radius:var(--radius-sm);font-size:.85rem;
+      line-height:1.45;display:none}
+    .msg.show{display:block}
+    .msg.ok{background:rgba(19,122,60,.09);color:#0F6234;border-left:3px solid #137A3C}
+    .msg.err{background:rgba(184,35,42,.08);color:#8E1B21;border-left:3px solid var(--red)}
+    .msg.info{background:rgba(11,31,58,.06);color:var(--navy);border-left:3px solid var(--navy-light)}
+
+    .auth-foot{margin-top:1.5rem;padding-top:1.2rem;border-top:1px solid var(--border-light);
+      text-align:center;font-size:.78rem;color:var(--mid-gray)}
+    .auth-foot a{color:var(--navy);font-weight:600;text-decoration:underline;text-underline-offset:3px}
+    [hidden]{display:none !important}
   </style>
 </head>
-<body>
-  <div class="login-wrap">
-    <h1>Staff login</h1>
-    <p>Enter your email and we'll send you a one-time login link.</p>
-    <form id="login-form">
-      <input id="login-email" type="email" placeholder="you@uke.co.za" required autocomplete="email" />
-      <button id="login-btn" type="submit">Send login link</button>
-    </form>
-    <div id="login-msg" class="login-msg" role="status"></div>
-  </div>
+<body class="auth-body">
+  <main class="auth-card">
+    <header class="auth-head">
+      <div class="auth-logo">UK <em>Emporium</em></div>
+      <div class="auth-kicker">Staff Portal</div>
+    </header>
+
+    <div class="auth-inner">
+      <!-- Tabs: sign in / create account -->
+      <div class="auth-tabs" role="tablist" id="tabs">
+        <button class="auth-tab" role="tab" id="tab-signin" aria-selected="true" type="button">Sign in</button>
+        <button class="auth-tab" role="tab" id="tab-signup" aria-selected="false" type="button">Create account</button>
+      </div>
+
+      <!-- ── Sign in ── -->
+      <section id="pane-signin">
+        <h1 class="auth-title">Welcome back</h1>
+        <p class="auth-sub">Sign in to manage the shop catalogue.</p>
+        <form id="form-signin" novalidate>
+          <div class="field">
+            <label for="si-email">Email address</label>
+            <input id="si-email" type="email" autocomplete="email" required placeholder="you@example.com" />
+          </div>
+          <div class="field">
+            <label for="si-password">Password</label>
+            <div class="pw-wrap">
+              <input id="si-password" type="password" autocomplete="current-password" required placeholder="••••••••" />
+              <button type="button" class="pw-toggle" data-toggle="si-password">Show</button>
+            </div>
+          </div>
+          <div class="auth-row">
+            <button type="button" class="link-btn" id="btn-forgot">Forgot password?</button>
+          </div>
+          <button class="auth-btn" id="btn-signin" type="submit">Sign in</button>
+        </form>
+
+        <div class="divider">or</div>
+        <button class="auth-btn secondary" id="btn-magic" type="button">Email me a one-time link</button>
+      </section>
+
+      <!-- ── Create account ── -->
+      <section id="pane-signup" hidden>
+        <h1 class="auth-title">Create an account</h1>
+        <p class="auth-sub">Set up your login below. Editing the catalogue also needs an admin invite &mdash; ask the site owner to add you.</p>
+        <form id="form-signup" novalidate>
+          <div class="field">
+            <label for="su-email">Email address</label>
+            <input id="su-email" type="email" autocomplete="email" required placeholder="you@example.com" />
+          </div>
+          <div class="field">
+            <label for="su-password">Password</label>
+            <div class="pw-wrap">
+              <input id="su-password" type="password" autocomplete="new-password" required placeholder="At least 8 characters" />
+              <button type="button" class="pw-toggle" data-toggle="su-password">Show</button>
+            </div>
+            <p class="hint">Use at least 8 characters.</p>
+          </div>
+          <div class="field">
+            <label for="su-confirm">Confirm password</label>
+            <input id="su-confirm" type="password" autocomplete="new-password" required placeholder="Re-enter your password" />
+          </div>
+          <button class="auth-btn" id="btn-signup" type="submit">Create account</button>
+        </form>
+      </section>
+
+      <!-- ── Set a new password (arrived from a reset link) ── -->
+      <section id="pane-reset" hidden>
+        <h1 class="auth-title">Set a new password</h1>
+        <p class="auth-sub">Choose a new password for your account.</p>
+        <form id="form-reset" novalidate>
+          <div class="field">
+            <label for="rp-password">New password</label>
+            <div class="pw-wrap">
+              <input id="rp-password" type="password" autocomplete="new-password" required placeholder="At least 8 characters" />
+              <button type="button" class="pw-toggle" data-toggle="rp-password">Show</button>
+            </div>
+          </div>
+          <div class="field">
+            <label for="rp-confirm">Confirm new password</label>
+            <input id="rp-confirm" type="password" autocomplete="new-password" required placeholder="Re-enter your password" />
+          </div>
+          <button class="auth-btn" id="btn-reset" type="submit">Update password</button>
+        </form>
+      </section>
+
+      <div id="msg" class="msg" role="status" aria-live="polite"></div>
+
+      <div class="auth-foot">
+        <a href="index.html">&larr; Back to the shop</a>
+      </div>
+    </div>
+  </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/supabase-config.js"></script>
   <script>
-    const form = document.getElementById('login-form');
-    const btn = document.getElementById('login-btn');
-    const msg = document.getElementById('login-msg');
-    // If arriving back from a magic link, a session now exists — go to the shop.
-    window.ukeSupabase.auth.getSession().then(({ data }) => {
-      if (data.session) window.location.replace('shop.html');
-    });
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      btn.disabled = true; msg.className = 'login-msg'; msg.textContent = 'Sending…';
-      const email = document.getElementById('login-email').value.trim();
-      const { error } = await window.ukeSupabase.auth.signInWithOtp({
-        email,
-        options: { emailRedirectTo: location.origin + '/shop.html' },
+  (function () {
+    const sb = window.ukeSupabase;
+    const $ = (id) => document.getElementById(id);
+    const msg = $('msg');
+    const REDIRECT = 'shop.html';
+    const abs = (p) => new URL(p, location.href).href;
+
+    function say(kind, text) { msg.className = 'msg show ' + kind; msg.textContent = text; }
+    function clear() { msg.className = 'msg'; msg.textContent = ''; }
+
+    function busy(btn, on, label) {
+      btn.disabled = on;
+      if (on) { btn.dataset.label = btn.textContent; btn.textContent = label; }
+      else if (btn.dataset.label) { btn.textContent = btn.dataset.label; }
+    }
+
+    // ── Show / hide password ──
+    document.querySelectorAll('.pw-toggle').forEach((t) => {
+      t.addEventListener('click', () => {
+        const input = $(t.dataset.toggle);
+        const show = input.type === 'password';
+        input.type = show ? 'text' : 'password';
+        t.textContent = show ? 'Hide' : 'Show';
       });
-      if (error) { msg.className = 'login-msg err'; msg.textContent = error.message; btn.disabled = false; }
-      else { msg.className = 'login-msg ok'; msg.textContent = 'Check your inbox for the login link.'; }
     });
+
+    // ── Tabs ──
+    function setMode(next) {
+      clear();
+      const isReset = next === 'reset';
+      $('tabs').hidden = isReset;
+      $('pane-signin').hidden = next !== 'signin';
+      $('pane-signup').hidden = next !== 'signup';
+      $('pane-reset').hidden = !isReset;
+      $('tab-signin').setAttribute('aria-selected', String(next === 'signin'));
+      $('tab-signup').setAttribute('aria-selected', String(next === 'signup'));
+    }
+    $('tab-signin').addEventListener('click', () => setMode('signin'));
+    $('tab-signup').addEventListener('click', () => setMode('signup'));
+
+    // Carry a typed email across the two tabs so nobody retypes it.
+    $('si-email').addEventListener('input', () => { $('su-email').value = $('si-email').value; });
+    $('su-email').addEventListener('input', () => { $('si-email').value = $('su-email').value; });
+
+    // ── After a successful sign-in: admin and non-admin are both valid outcomes ──
+    async function afterSignIn() {
+      const { data: isAdmin, error } = await sb.rpc('is_admin');
+      if (error) { say('err', 'Signed in, but the admin check failed: ' + error.message); return; }
+      if (isAdmin === true) {
+        say('ok', 'Signed in as an admin. Taking you to the shop…');
+        setTimeout(() => window.location.replace(REDIRECT), 700);
+      } else {
+        say('info', 'Signed in — but this account is not an admin yet, so the editor stays hidden. '
+          + 'Ask the site owner to add you, then sign in again.');
+      }
+    }
+
+    // ── Password sign-in ──
+    $('form-signin').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = $('si-email').value.trim();
+      const password = $('si-password').value;
+      if (!email || !password) { say('err', 'Enter your email and password.'); return; }
+      clear(); busy($('btn-signin'), true, 'Signing in…');
+      const { error } = await sb.auth.signInWithPassword({ email, password });
+      busy($('btn-signin'), false);
+      if (error) {
+        say('err', /invalid login/i.test(error.message)
+          ? 'That email and password do not match an account. Check them, or use the one-time link below.'
+          : error.message);
+        return;
+      }
+      await afterSignIn();
+    });
+
+    // ── Create account ──
+    $('form-signup').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = $('su-email').value.trim();
+      const password = $('su-password').value;
+      const confirm = $('su-confirm').value;
+      if (!email) { say('err', 'Enter your email address.'); return; }
+      if (password.length < 8) { say('err', 'Password must be at least 8 characters.'); return; }
+      if (password !== confirm) { say('err', 'The two passwords do not match.'); return; }
+      clear(); busy($('btn-signup'), true, 'Creating account…');
+      const { data, error } = await sb.auth.signUp({
+        email, password, options: { emailRedirectTo: abs(REDIRECT) },
+      });
+      busy($('btn-signup'), false);
+      if (error) { say('err', error.message); return; }
+      if (data.session) { await afterSignIn(); return; }
+      say('ok', 'Account created. Check ' + email + ' for a confirmation link, then come back and sign in.');
+    });
+
+    // ── Magic link ──
+    $('btn-magic').addEventListener('click', async () => {
+      const email = $('si-email').value.trim();
+      if (!email) { say('err', 'Enter your email address first, then request the link.'); $('si-email').focus(); return; }
+      clear(); busy($('btn-magic'), true, 'Sending…');
+      const { error } = await sb.auth.signInWithOtp({
+        email, options: { emailRedirectTo: abs(REDIRECT) },
+      });
+      busy($('btn-magic'), false);
+      if (error) { say('err', error.message); return; }
+      say('ok', 'Link sent. Check ' + email + ' — it signs you in without a password.');
+    });
+
+    // ── Forgot password ──
+    $('btn-forgot').addEventListener('click', async () => {
+      const email = $('si-email').value.trim();
+      if (!email) { say('err', 'Enter your email address first, then request a reset.'); $('si-email').focus(); return; }
+      clear();
+      const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: abs('login.html') });
+      if (error) { say('err', error.message); return; }
+      say('ok', 'Reset link sent to ' + email + '. Open it to choose a new password.');
+    });
+
+    // ── Set a new password (arrived via a recovery link) ──
+    $('form-reset').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const password = $('rp-password').value;
+      const confirm = $('rp-confirm').value;
+      if (password.length < 8) { say('err', 'Password must be at least 8 characters.'); return; }
+      if (password !== confirm) { say('err', 'The two passwords do not match.'); return; }
+      clear(); busy($('btn-reset'), true, 'Updating…');
+      const { error } = await sb.auth.updateUser({ password });
+      busy($('btn-reset'), false);
+      if (error) { say('err', error.message); return; }
+      await afterSignIn();
+    });
+
+    // ── Arrival state ──
+    // A recovery link fires PASSWORD_RECOVERY once the hash is consumed; any other
+    // existing session means the user is already signed in.
+    sb.auth.onAuthStateChange((event) => {
+      if (event === 'PASSWORD_RECOVERY') setMode('reset');
+    });
+
+    if (/type=recovery/.test(location.hash) || /type=recovery/.test(location.search)) {
+      setMode('reset');
+    } else {
+      sb.auth.getSession().then(({ data }) => { if (data.session) afterSignIn(); });
+    }
+  })();
   </script>
 </body>
 </html>
