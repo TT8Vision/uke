@@ -5,3 +5,9 @@ node_modules/
 
 # Generated seed artifact (regenerate with scripts/build-seed-sql.mjs)
 scripts/seed-products.sql
+
+# Local MCP server config (may hold access tokens)
+.mcp.json
+
+# Image migration scratch space (scripts/migrate-images.mjs)
+.cache/
