@@ -6,6 +6,7 @@
     "dev": "npx serve . --listen 3000 --no-clipboard",
     "start": "npx serve . --listen 3000",
     "build:catalogue": "node scripts/build-catalogue.mjs",
+    "export:catalogue": "node scripts/export-products.mjs",
     "normalise:products": "node scripts/normalise-products.mjs"
   }
 }
