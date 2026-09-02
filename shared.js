@@ -1,8 +1,8 @@
 /* ── Shared JS for UK Emporium redesign ── */
 
 // Single money formatter for the whole site: 199.9 -> "R199.90".
-// Prices live as numbers in data/products.json and are only ever formatted for
-// display — never parsed back out of the DOM.
+// Prices live as numbers in Supabase (public.products) and are only ever
+// formatted for display — never parsed back out of the DOM.
 function formatPrice(n) {
   return 'R' + Number(n).toFixed(2);
 }
@@ -27,8 +27,9 @@ const Cart = {
     localStorage.setItem('uke_cart', JSON.stringify(this.items));
   },
 
-  // products.json is authoritative: re-resolve every id-bearing line against the
-  // catalogue, so editing a price in JSON also re-prices a cart saved earlier.
+  // The Supabase catalogue is authoritative: re-resolve every id-bearing line
+  // against it, so a price edited in the admin editor also re-prices a cart
+  // saved earlier.
   repriceFromCatalogue() {
     if (!window.Catalogue?.loaded) return;
     let changed = false;
@@ -99,7 +100,7 @@ const Cart = {
     this.renderDrawer();
   },
 
-  // Prices are numbers held in the cart line, sourced from products.json.
+  // Prices are numbers held in the cart line, sourced from the catalogue.
   // Nothing here parses a price out of the DOM.
   total() {
     return this.items.reduce((sum, i) => sum + (Number(i.price) || 0) * i.qty, 0);
@@ -312,7 +313,7 @@ async function renderPromo() {
 
 // ── Reveal on scroll ───────────────────────────────────────────────
 // `.reveal` starts at opacity 0 and only becomes visible once observed, so cards
-// rendered from products.json after DOMContentLoaded must be observed too —
+// rendered from the catalogue after DOMContentLoaded must be observed too —
 // otherwise they stay permanently invisible. Re-run on products:rendered.
 function initReveal() {
   const els = document.querySelectorAll('.reveal:not(.visible)');
@@ -348,13 +349,13 @@ function initStickyCart() {
 
 // ── Add to cart buttons ────────────────────────────────────────────
 function initCartButtons() {
-  // Delegated, so cards rendered later from products.json are covered too.
+  // Delegated, so cards rendered later from the catalogue are covered too.
   document.addEventListener('click', e => {
     const btn = e.target.closest('.btn-add-cart');
     if (!btn) return;
     e.preventDefault();
 
-    // Every card on every page is rendered from products.json and carries an id.
+    // Every card on every page is rendered from the catalogue and carries an id.
     // Price/name/image are resolved from the catalogue — the card's price text is
     // display output and is never read back.
     const card = btn.closest('.product-card');

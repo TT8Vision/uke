@@ -9,10 +9,10 @@
    REFERENCES, never product data. An entry may carry presentation-only
    overrides — tag, gold, image, cardClass — and nothing else.
 
-   Pricing rule: products.json is the ONLY source of price. A featured entry may
-   NOT override price (enforced below). Cards render price as display text
-   derived from the JSON number; nothing ever reads that text back. The cart
-   resolves price/name from the catalogue by data-product-id.
+   Pricing rule: Supabase (public.products) is the ONLY source of price. A
+   featured entry may NOT override price (enforced below). Cards render price as
+   display text derived from the stored number; nothing ever reads that text
+   back. The cart resolves price/name from the catalogue by data-product-id.
    Never add a data-price attribute — that would be a second copy of price.
    ────────────────────────────────────────────────────────────────── */
 
@@ -241,7 +241,7 @@ async function renderProducts() {
         return '';
       }
       if ('price' in entry || 'oldPrice' in entry) {
-        // A featured list must never restate a price; products.json owns it.
+        // A featured list must never restate a price; public.products owns it.
         console.error(`[render-products] featured entry ${entry.id} tried to override price — ignored`);
       }
       return productCardHTML(p, {
