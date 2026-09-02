@@ -32,9 +32,17 @@ begin
 
     -- Shape mirrors what GoTrue itself writes for an email signup: a confirmed
     -- account on the email provider, with a bcrypt password hash.
+    --
+    -- The token columns must be '' and never NULL. GoTrue scans them into a
+    -- non-nullable Go string, so a NULL makes every sign-in fail with
+    -- HTTP 500 "Database error querying schema" — which looks like a server
+    -- fault, not a bad row. They are set explicitly for that reason.
     insert into auth.users (
       instance_id, id, aud, role, email, encrypted_password,
       email_confirmed_at, raw_app_meta_data, raw_user_meta_data,
+      confirmation_token, recovery_token, email_change,
+      email_change_token_new, email_change_token_current,
+      phone_change, phone_change_token, reauthentication_token,
       created_at, updated_at
     ) values (
       '00000000-0000-0000-0000-000000000000',
@@ -46,6 +54,7 @@ begin
       now(),
       '{"provider": "email", "providers": ["email"]}'::jsonb,
       '{}'::jsonb,
+      '', '', '', '', '', '', '', '',
       now(), now()
     );
 
@@ -67,6 +76,15 @@ begin
     update auth.users
       set encrypted_password = extensions.crypt(v_password, extensions.gen_salt('bf')),
           email_confirmed_at = coalesce(email_confirmed_at, now()),
+          -- Repair a row created before the NULL-token problem was understood.
+          confirmation_token         = coalesce(confirmation_token, ''),
+          recovery_token             = coalesce(recovery_token, ''),
+          email_change               = coalesce(email_change, ''),
+          email_change_token_new     = coalesce(email_change_token_new, ''),
+          email_change_token_current = coalesce(email_change_token_current, ''),
+          phone_change               = coalesce(phone_change, ''),
+          phone_change_token         = coalesce(phone_change_token, ''),
+          reauthentication_token     = coalesce(reauthentication_token, ''),
           updated_at         = now()
       where id = v_id;
 
