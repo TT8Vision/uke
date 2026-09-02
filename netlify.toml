@@ -1,21 +1,30 @@
 # Netlify deploy for the UK Emporium static site.
 #
-# Hand-written HTML at the repo root — there is no bundler. The single build step
-# stitches the per-product Decap files (data/products/*.json) back into the one
-# data/products.json the site reads, so a product saved in the CMS is live as soon
-# as its commit is built. Everything else is served as-is from the repo root.
+# Hand-written HTML at the repo root — there is no bundler and no build step.
+# The product catalogue is read at runtime from Supabase (see js/supabase-config.js),
+# so nothing has to be generated at deploy time. Everything is served as-is.
 
 [build]
-  # Publish the repo root — the site pages, /admin, /data and /images all live here.
+  # Publish the repo root — the site pages, /data and /images all live here.
   publish = "."
-  # Not a bundler: regenerates data/products.json from data/products/*.json.
-  command = "npm run build:catalogue"
 
 [build.environment]
   NODE_VERSION = "20"
 
-# No admin redirect/rewrite is needed: /admin/ resolves to the static
-# admin/index.html, and Decap routes internally with hash URLs (#/collections/...).
+# The Decap CMS at /admin was retired when Supabase became the source of truth.
+# Old bookmarks and invite links would otherwise 404; send them to the home page.
+# Staff editing now starts at /login.html.
+[[redirects]]
+  from = "/admin"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/admin/*"
+  to = "/"
+  status = 301
+  force = true
 
 # Security headers for every route.
 [[headers]]
@@ -24,8 +33,8 @@
     X-Frame-Options = "SAMEORIGIN"
     X-Content-Type-Options = "nosniff"
 
-# The CMS is a private editing surface, not site content — keep it out of search.
+# The staff login is a private surface, not site content — keep it out of search.
 [[headers]]
-  for = "/admin/*"
+  for = "/login.html"
   [headers.values]
     X-Robots-Tag = "noindex"
