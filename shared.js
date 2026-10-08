@@ -1,8 +1,8 @@
 /* ── Shared JS for UK Emporium redesign ── */
 
 // Single money formatter for the whole site: 199.9 -> "R199.90".
-// Prices live as numbers in Supabase (public.products) and are only ever
-// formatted for display — never parsed back out of the DOM.
+// Prices live as numbers in data/products.json and are only ever formatted for
+// display — never parsed back out of the DOM.
 function formatPrice(n) {
   return 'R' + Number(n).toFixed(2);
 }
@@ -27,9 +27,8 @@ const Cart = {
     localStorage.setItem('uke_cart', JSON.stringify(this.items));
   },
 
-  // The Supabase catalogue is authoritative: re-resolve every id-bearing line
-  // against it, so a price edited in the admin editor also re-prices a cart
-  // saved earlier.
+  // products.json is authoritative: re-resolve every id-bearing line against the
+  // catalogue, so editing a price in JSON also re-prices a cart saved earlier.
   repriceFromCatalogue() {
     if (!window.Catalogue?.loaded) return;
     let changed = false;
@@ -271,8 +270,8 @@ function injectCartDrawer() {
 }
 
 // ── Promo / announcement strip ─────────────────────────────────────
-// The ticker's promo message lives in data/settings.json so the client can edit
-// it once in /admin and have it update on every page. Slots are marked with
+// The ticker's promo message lives in data/settings.json so it can be edited
+// once there and update on every page. Slots are marked with
 // data-promo-message / data-promo-code / data-promo-link; setting enabled:false
 // removes the promo items from the ticker entirely.
 async function renderPromo() {

@@ -1,28 +1,38 @@
-# SNAPSHOT — not the source of truth
+# Product source files
 
-The source of truth for the product catalogue is **Supabase**
-(project `xwgpaalydysfebyolern`, table `public.products`).
+One JSON file per product, named by its id (`uke-0001.json`). **These files
+are the source of truth for the catalogue.**
 
-These files are a snapshot of that table, kept in git so the catalogue is
-backed up, diffable and reviewable. **Nothing reads them at runtime** — the
-site queries Supabase directly via `js/render-products.js`.
-
-Refresh the snapshot with:
+The site does not read them directly. It reads `data/products.json`, which is
+generated from these files:
 
 ```
-npm run export:catalogue
+npm run build:catalogue
 ```
 
-That rewrites every file here and regenerates `data/products.json`.
+Run that after any edit here and commit both the edited file and the
+regenerated `data/products.json`. Netlify also runs it on every deploy.
 
-## Do not edit these files by hand
+## Fields
 
-An edit here changes nothing on the site, and the next export silently
-overwrites it. To change a product, sign in at `/login.html` with an admin
-account and edit it inline on the page.
+| field        | meaning                                                  |
+|--------------|----------------------------------------------------------|
+| `id`         | must match the filename, e.g. `uke-0869`                 |
+| `brand`      | brand name shown on the card                             |
+| `name`       | product name                                             |
+| `volume`     | pack size text, or `null` to hide it                     |
+| `price`      | number in rand, e.g. `84.9` (never a string)             |
+| `oldPrice`   | number shown struck through, or `null`                   |
+| `sku`        | optional stock code, or `null`                           |
+| `image`      | local path, e.g. `images/products/uke-0001.webp`         |
+| `categories` | list of category keys, e.g. `["beers"]`                  |
+| `tag`        | badge text such as `"Sale"`, or `null`                   |
+| `inStock`    | `true` / `false`                                         |
+| `new`        | `true` to feature in the homepage "new" strip            |
+| `dateAdded`  | `YYYY-MM-DD`                                             |
 
-Editing here is also how the catalogue used to get two competing id
-allocators. Product ids are minted by Supabase — the `assign_product_id`
-trigger draws from `products_id_seq`. Creating a file here with a
-hand-picked `uke-####` id would eventually collide with one the sequence
-issues.
+Category keys in use: beers, cereals, cleaning, colddrinks, confectionery,
+groceries, hotdrinks, kent, personalcare.
+
+New products take the next unused id: one higher than the highest existing
+`uke-####` file.

@@ -1,8 +1,7 @@
 /* Rewrite every data/products/<id>.json with keys in the canonical order.
  *
- * Decap writes an entry's keys in whatever order its form state happens to hold, so a
- * CMS save reorders the file and git shows a whole-file diff for a one-price change.
- * This rewrites the same data in a fixed key order, so diffs stay honest: only the
+ * Editors and tools do not always preserve key order, and a reordered file shows up in
+ * git as a whole-file diff for a one-price change. This rewrites the same data in a fixed key order, so diffs stay honest: only the
  * fields that actually changed show up.
  *
  * Safe to run any time — it is data-preserving. It changes key ORDER and formatting
@@ -16,7 +15,7 @@ import path from 'node:path';
 
 const DIR = 'data/products';
 
-// Same 13 fields, same order as split-products.mjs and build-catalogue.mjs.
+// Same 13 fields, same order as build-catalogue.mjs.
 const FIELDS = ['id', 'brand', 'name', 'volume', 'price', 'oldPrice', 'sku',
   'image', 'categories', 'tag', 'inStock', 'new', 'dateAdded'];
 
