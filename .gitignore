@@ -11,3 +11,7 @@ scripts/seed-products.sql
 
 # Image migration scratch space (scripts/migrate-images.mjs)
 .cache/
+
+# Generated admin credentials — never commit
+admin-credentials.txt
+.reset-admin.sql
