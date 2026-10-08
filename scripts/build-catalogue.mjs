@@ -1,11 +1,11 @@
 /* Build step: data/products/*.json -> data/products.json
  *
- * The per-product files under data/products/ are the source of truth (that is what the
- * Decap folder collection edits). The site, renderer and cart still read one
- * data/products.json, so this stitches them back together.
+ * The per-product files under data/products/ are the source of truth — edit those, one
+ * file per product. The site, renderer and cart read one data/products.json, which this
+ * stitches together. That file is authoritative for what the live site shows.
  *
- * Netlify runs this on every push (see netlify.toml), so a product saved in the CMS is
- * live after the rebuild. Run it locally with: npm run build:catalogue
+ * Netlify runs this on every deploy (see netlify.toml). Run it locally after editing a
+ * product, and commit the regenerated data/products.json: npm run build:catalogue
  */
 import { readFile, writeFile, readdir } from 'node:fs/promises';
 import path from 'node:path';
@@ -23,7 +23,7 @@ for (const f of files) {
   const p = JSON.parse(await readFile(path.join(SRC, f), 'utf8'));
 
   // The filename is the id. Trust it over the field, and repair the field if a hand-edit
-  // or a CMS quirk ever leaves them disagreeing — the featured lists key off this id.
+  // ever leaves them disagreeing — the featured lists key off this id.
   const idFromName = path.basename(f, '.json');
   if (p.id !== idFromName) {
     console.warn(`[build] ${f}: id field "${p.id}" != filename — using filename`);

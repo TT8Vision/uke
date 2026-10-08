@@ -9,22 +9,12 @@
    REFERENCES, never product data. An entry may carry presentation-only
    overrides — tag, gold, image, cardClass — and nothing else.
 
-   Pricing rule: Supabase (public.products) is the ONLY source of price. A
-   featured entry may NOT override price (enforced below). Cards render price as
-   display text derived from the stored number; nothing ever reads that text
-   back. The cart resolves price/name from the catalogue by data-product-id.
+   Pricing rule: products.json is the ONLY source of price. A featured entry may
+   NOT override price (enforced below). Cards render price as display text
+   derived from the JSON number; nothing ever reads that text back. The cart
+   resolves price/name from the catalogue by data-product-id.
    Never add a data-price attribute — that would be a second copy of price.
    ────────────────────────────────────────────────────────────────── */
-
-/* Map a Supabase row (snake_case) to the shape the renderer expects. */
-function mapRow(r) {
-  return {
-    id: r.id, brand: r.brand, name: r.name, volume: r.volume,
-    price: r.price, oldPrice: r.old_price, sku: r.sku, image: r.image,
-    categories: r.categories || [], tag: r.tag,
-    inStock: r.in_stock, new: r.is_new, dateAdded: r.date_added,
-  };
-}
 
 const Catalogue = {
   products: [],
@@ -33,28 +23,17 @@ const Catalogue = {
 
   async load() {
     if (this.loaded) return this.products;
-    const { data, error } = await window.ukeSupabase
-      .from('products')
-      .select('*')
-      .order('id', { ascending: true });
-    if (error) throw new Error(`products: ${error.message}`);
-    this.products = (data || []).map(mapRow);
+    const res = await fetch('data/products.json');
+    if (!res.ok) throw new Error(`products.json: ${res.status} ${res.statusText}`);
+    const data = await res.json();
+    // The catalogue is stored as { _comment, products: [...] } — products.json is a build
+    // artifact stitched from data/products/*.json, and _comment says so. Only `products`
+    // is read; any other root key (the note, anything added later) is ignored. A bare
+    // array is still accepted.
+    this.products = Array.isArray(data) ? data : (data.products || []);
     this.byId = new Map(this.products.map(p => [p.id, p]));
     this.loaded = true;
     return this.products;
-  },
-
-  // Apply a local insert/update without refetching, so the editor can re-render.
-  upsertLocal(p) {
-    const i = this.products.findIndex(x => x.id === p.id);
-    if (i === -1) this.products.push(p); else this.products[i] = p;
-    this.products.sort((a, b) => String(a.id).localeCompare(String(b.id)));
-    this.byId.set(p.id, p);
-  },
-
-  removeLocal(id) {
-    this.products = this.products.filter(p => p.id !== id);
-    this.byId.delete(id);
   },
 
   get(id) {
@@ -241,7 +220,7 @@ async function renderProducts() {
         return '';
       }
       if ('price' in entry || 'oldPrice' in entry) {
-        // A featured list must never restate a price; public.products owns it.
+        // A featured list must never restate a price; products.json owns it.
         console.error(`[render-products] featured entry ${entry.id} tried to override price — ignored`);
       }
       return productCardHTML(p, {
