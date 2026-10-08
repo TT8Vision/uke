@@ -9,7 +9,7 @@
   "volume": "500ml",
   "tag": null,
   "id": "uke-0001",
-  "image": "https://xwgpaalydysfebyolern.supabase.co/storage/v1/object/public/product-images/uke-0001.jpg",
+  "image": "images/products/uke-0001.webp",
   "categories": [
     "beers"
   ],

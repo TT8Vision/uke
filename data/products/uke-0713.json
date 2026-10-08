@@ -6,7 +6,7 @@
   "price": 199.9,
   "oldPrice": null,
   "sku": "PF08",
-  "image": "https://xwgpaalydysfebyolern.supabase.co/storage/v1/object/public/product-images/uke-0713.jpg",
+  "image": "images/products/uke-0713.webp",
   "categories": [
     "kent"
   ],

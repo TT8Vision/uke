@@ -6,7 +6,7 @@
   "price": 25,
   "oldPrice": null,
   "sku": null,
-  "image": "https://xwgpaalydysfebyolern.supabase.co/storage/v1/object/public/product-images/uke-0356.png",
+  "image": "images/products/uke-0356.webp",
   "categories": [
     "confectionery"
   ],
