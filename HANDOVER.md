@@ -27,14 +27,12 @@ Opening the HTML files straight from disk will not load products; use a local se
 3. Check it with `npm run dev`.
 4. Commit both changed files and push:
    ```
-   git add data/products
-   git add data/products.json
+   git add data/products data/products.json
    git commit -m "Update price of Abbott Ale"
    git push
    ```
 5. Netlify rebuilds and the live site updates within a couple of minutes.
-
-To remove a product, delete its file, rebuild, commit and push.
+   To remove a product, delete its file, then do steps 2–4.
 
 ## Add a product
 1. Find the highest existing id in `data/products/` (e.g. `uke-0868`) and use the next

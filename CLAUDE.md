@@ -53,8 +53,9 @@ the repo; changing a product means editing a file, committing and pushing.
 
 ## Retired — do not reinstate
 - Decap CMS + Netlify Identity (`admin/`). `/admin` and `/admin/*` 301 to `/`.
-- The Supabase catalogue, `login.html` and the inline admin editor. The site briefly
-  read products from Supabase; that layer was removed and the repo is authoritative.
+- The hosted-database catalogue, `login.html` and the inline admin editor. The site
+  briefly read products from a database; that layer was removed and the repo is
+  authoritative.
 - `editor/overlay.js` and any Next.js / Vercel publish pipeline.
 
 ## Scripts
